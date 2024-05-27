@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.app.ecosort.R
-import com.app.ecosort.view.main.MainActivity
+import com.app.ecosort.view.login.LoginActivity
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,9 +29,9 @@ class SplashActivity : AppCompatActivity() {
             Splash()
         },4000L )
     }
-
+    
     private fun Splash() {
-        Intent(this, MainActivity::class.java).also {
+        Intent(this, LoginActivity::class.java).also {
             startActivity(it)
             finish()
         }
