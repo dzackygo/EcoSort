@@ -1,24 +1,32 @@
-package com.app.ecosort.view.splash
+package com.app.ecosort.view.camera
 
-import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.text.style.TypefaceSpan
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.app.ecosort.R
+import com.app.ecosort.databinding.ActivityCameraBinding
 import com.app.ecosort.helper.PrefHelper
-import com.app.ecosort.view.welcome.WelcomeActivity
 
-class SplashActivity : AppCompatActivity() {
+class CameraActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityCameraBinding
     private val  pref by lazy { PrefHelper(this) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_splash)
+        binding = ActivityCameraBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -36,16 +44,23 @@ class SplashActivity : AppCompatActivity() {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
         }
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            Splash()
-        },4000L )
     }
-    
-    private fun Splash() {
-        Intent(this, WelcomeActivity::class.java).also {
-            startActivity(it)
-            finish()
-        }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        showExitConfirmationDialog()
+    }
+
+    private fun showExitConfirmationDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Confirmation of Exit")
+            .setMessage("Are you sure you want to exit the app?")
+            .setPositiveButton("Yes") { _, _ ->
+                super.onBackPressed()
+            }
+            .setNegativeButton("No") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 }
