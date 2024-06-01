@@ -3,15 +3,19 @@ package com.app.ecosort.view.settings
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
+import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.TypefaceSpan
+import android.view.WindowInsets
+import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -60,8 +64,6 @@ class SettingsActivity : AppCompatActivity() {
             toolbar.setTitleTextColor(Color.WHITE)
         }
 
-        supportActionBar?.hide()
-
         binding.bottomNavView.selectedItemId = R.id.settings
 
         binding.bottomNavView.setOnNavigationItemSelectedListener { item ->
@@ -91,6 +93,8 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(i)
         }
 
+        setupView()
+
         viewModel.getTheme().observe(this) {
             if (it) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -103,6 +107,19 @@ class SettingsActivity : AppCompatActivity() {
         binding.switchTheme.setOnCheckedChangeListener { _, isChecked ->
             viewModel.saveTheme(isChecked)
         }
+    }
+
+    private fun setupView() {
+        @Suppress("DEPRECATION")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.statusBarColor = ContextCompat.getColor(this, R.color.action_bar)
+        } else {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+            )
+        }
+        supportActionBar?.hide()
     }
 
     @Deprecated("Deprecated in Java")
