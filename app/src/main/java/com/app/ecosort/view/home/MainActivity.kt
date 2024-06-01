@@ -11,25 +11,34 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.text.style.TypefaceSpan
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
 import com.app.ecosort.R
 import com.app.ecosort.databinding.ActivityMainBinding
 import com.app.ecosort.helper.PrefHelper
 import com.app.ecosort.view.camera.CameraActivity
 import com.app.ecosort.view.info.InfoActivity
 import com.app.ecosort.view.news.NewsActivity
+import com.app.ecosort.view.settings.SettingViewModel
 import com.app.ecosort.view.settings.SettingsActivity
 import com.google.android.material.internal.ToolbarUtils
 
-class MainActivity : AppCompatActivity() {
+class MainActivity() : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val  pref by lazy { PrefHelper(this) }
+
+    private val viewModel by viewModels<SettingViewModel> {
+        SettingViewModel.factory(PrefHelper(this))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +55,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         binding.bottomNavView.selectedItemId = R.id.home
+
 
         binding.bottomNavView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
@@ -89,20 +99,21 @@ class MainActivity : AppCompatActivity() {
             toolbar.setTitleTextColor(Color.WHITE)
         }
 
-        when(pref.getBoolean("dark_mode")) {
-            true -> {
+        viewModel.getTheme().observe(this) {
+            if (it) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            }
-            false -> {
+            } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
         }
+
     }
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         showExitConfirmationDialog()
     }
+
 
     private fun showExitConfirmationDialog() {
         AlertDialog.Builder(this)
@@ -116,4 +127,5 @@ class MainActivity : AppCompatActivity() {
             }
             .show()
     }
+
 }

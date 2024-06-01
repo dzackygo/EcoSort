@@ -9,6 +9,7 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
@@ -17,10 +18,13 @@ import com.app.ecosort.R
 import com.app.ecosort.databinding.ActivityRegisterBinding
 import com.app.ecosort.helper.PrefHelper
 import com.app.ecosort.view.login.LoginActivity
+import com.app.ecosort.view.settings.SettingViewModel
 
 class RegisterActivity : AppCompatActivity() {
 
-    private val  pref by lazy { PrefHelper(this) }
+    private val viewModel by viewModels<SettingViewModel> {
+        SettingViewModel.factory(PrefHelper(this))
+    }
 
     private lateinit var binding: ActivityRegisterBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,11 +44,10 @@ class RegisterActivity : AppCompatActivity() {
         setupAction2()
         playAnimation()
 
-        when(pref.getBoolean("dark_mode")) {
-            true -> {
+        viewModel.getTheme().observe(this) {
+            if (it) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            }
-            false -> {
+            } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
         }

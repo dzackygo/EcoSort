@@ -8,6 +8,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.TypefaceSpan
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -25,6 +26,10 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 
 class SettingsActivity : AppCompatActivity() {
     private val  pref by lazy { PrefHelper(this) }
+
+    private val viewModel by viewModels<SettingViewModel> {
+        SettingViewModel.factory(PrefHelper(this))
+    }
 
     private lateinit var binding: ActivitySettingsBinding
 
@@ -85,21 +90,18 @@ class SettingsActivity : AppCompatActivity() {
             val i = Intent(this@SettingsActivity, CameraActivity::class.java)
             startActivity(i)
         }
-        val switchTheme = findViewById<SwitchMaterial>(R.id.switch_theme)
 
-        switchTheme.isChecked = pref.getBoolean("dark_mode")
-
-        switchTheme.setOnCheckedChangeListener { compoundButton, isChecked ->
-            when (isChecked) {
-                true -> {
-                    pref.put("dark_mode", true)
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                }
-                false -> {
-                    pref.put("dark_mode", false)
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                }
+        viewModel.getTheme().observe(this) {
+            if (it) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
+            binding.switchTheme.isChecked = it
+        }
+
+        binding.switchTheme.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.saveTheme(isChecked)
         }
     }
 

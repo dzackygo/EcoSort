@@ -9,6 +9,7 @@ import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.TypefaceSpan
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -18,11 +19,14 @@ import androidx.core.view.WindowInsetsCompat
 import com.app.ecosort.R
 import com.app.ecosort.databinding.ActivityCameraBinding
 import com.app.ecosort.helper.PrefHelper
+import com.app.ecosort.view.settings.SettingViewModel
 
 class CameraActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCameraBinding
-    private val  pref by lazy { PrefHelper(this) }
+    private val viewModel by viewModels<SettingViewModel> {
+        SettingViewModel.factory(PrefHelper(this))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,14 +56,14 @@ class CameraActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        when(pref.getBoolean("dark_mode")) {
-            true -> {
+        viewModel.getTheme().observe(this) {
+            if (it) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            }
-            false -> {
+            } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
         }
+
     }
 
     @Deprecated("Deprecated in Java")
