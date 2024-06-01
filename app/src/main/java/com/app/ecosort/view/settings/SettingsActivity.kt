@@ -1,11 +1,11 @@
 package com.app.ecosort.view.settings
 
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
 import android.text.style.TypefaceSpan
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
@@ -24,9 +24,10 @@ import com.app.ecosort.view.news.NewsActivity
 import com.google.android.material.switchmaterial.SwitchMaterial
 
 class SettingsActivity : AppCompatActivity() {
+    private val  pref by lazy { PrefHelper(this) }
 
     private lateinit var binding: ActivitySettingsBinding
-    private val  pref by lazy { PrefHelper(this) }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,25 +41,21 @@ class SettingsActivity : AppCompatActivity() {
             insets
         }
 
-        supportActionBar?.hide()
-
-        val switchTheme = findViewById<SwitchMaterial>(R.id.switch_theme)
-
-        switchTheme.isChecked = pref.getBoolean("dark_mode")
-
-        switchTheme.setOnCheckedChangeListener { compoundButton, isChecked ->
-            when (isChecked) {
-                true -> {
-                    pref.put("dark_mode", true)
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                }
-                false -> {
-                    pref.put("dark_mode", false)
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                }
-            }
-
+        val toolbar = binding.toolbar
+        val typeface: Typeface? = ResourcesCompat.getFont(this, R.font.montserrat_semibold)
+        if (typeface != null) {
+            val spannableTitle = SpannableString(toolbar.title)
+            spannableTitle.setSpan(
+                TypefaceSpan(typeface),
+                0,
+                spannableTitle.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            toolbar.title = spannableTitle
+            toolbar.setTitleTextColor(Color.WHITE)
         }
+
+        supportActionBar?.hide()
 
         binding.bottomNavView.selectedItemId = R.id.settings
 
@@ -88,7 +85,24 @@ class SettingsActivity : AppCompatActivity() {
             val i = Intent(this@SettingsActivity, CameraActivity::class.java)
             startActivity(i)
         }
+        val switchTheme = findViewById<SwitchMaterial>(R.id.switch_theme)
+
+        switchTheme.isChecked = pref.getBoolean("dark_mode")
+
+        switchTheme.setOnCheckedChangeListener { compoundButton, isChecked ->
+            when (isChecked) {
+                true -> {
+                    pref.put("dark_mode", true)
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                }
+                false -> {
+                    pref.put("dark_mode", false)
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
+            }
+        }
     }
+
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         showExitConfirmationDialog()

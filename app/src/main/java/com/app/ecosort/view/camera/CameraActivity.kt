@@ -1,5 +1,7 @@
 package com.app.ecosort.view.camera
 
+import android.content.Context
+import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Spannable
@@ -30,8 +32,22 @@ class CameraActivity : AppCompatActivity() {
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            v.setPadding(systemBars.left, 0, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        val toolbar = binding.toolbar
+        val typeface: Typeface? = ResourcesCompat.getFont(this, R.font.montserrat_semibold)
+        if (typeface != null) {
+            val spannableTitle = SpannableString(toolbar.title)
+            spannableTitle.setSpan(
+                TypefaceSpan(typeface),
+                0,
+                spannableTitle.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            toolbar.title = spannableTitle
+            toolbar.setTitleTextColor(Color.WHITE)
         }
 
         supportActionBar?.hide()

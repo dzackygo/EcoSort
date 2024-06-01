@@ -27,6 +27,7 @@ class WelcomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
+
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityWelcomeBinding.inflate(layoutInflater)
@@ -40,15 +41,6 @@ class WelcomeActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        when(pref.getBoolean("dark_mode")) {
-            true -> {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            }
-            false -> {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
-        }
-
         binding.loginButton.setOnClickListener() {
             val moveIntentLogin = Intent(this@WelcomeActivity, LoginActivity::class.java)
             startActivity(moveIntentLogin)
@@ -61,6 +53,15 @@ class WelcomeActivity : AppCompatActivity() {
 
         setupView()
         playAnimation()
+
+        when(pref.getBoolean("dark_mode")) {
+            true -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }
+            false -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
     }
 
     private fun playAnimation() {

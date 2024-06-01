@@ -1,6 +1,8 @@
 package com.app.ecosort.view.info
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Spannable
@@ -39,16 +41,21 @@ class InfoActivity : AppCompatActivity() {
             insets
         }
 
-        supportActionBar?.hide()
-
-        when(pref.getBoolean("dark_mode")) {
-            true -> {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            }
-            false -> {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
+        val toolbar = binding.toolbar
+        val typeface: Typeface? = ResourcesCompat.getFont(this, R.font.montserrat_semibold)
+        if (typeface != null) {
+            val spannableTitle = SpannableString(toolbar.title)
+            spannableTitle.setSpan(
+                TypefaceSpan(typeface),
+                0,
+                spannableTitle.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            toolbar.title = spannableTitle
+            toolbar.setTitleTextColor(Color.WHITE)
         }
+
+        supportActionBar?.hide()
 
         binding.bottomNavView.selectedItemId = R.id.info
 
@@ -77,6 +84,15 @@ class InfoActivity : AppCompatActivity() {
         binding.cameraActivity.setOnClickListener() {
             val i = Intent(this@InfoActivity, CameraActivity::class.java)
             startActivity(i)
+        }
+
+        when(pref.getBoolean("dark_mode")) {
+            true -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }
+            false -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
         }
     }
 

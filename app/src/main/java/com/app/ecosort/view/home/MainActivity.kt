@@ -1,11 +1,14 @@
 package com.app.ecosort.view.home
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.text.style.TypefaceSpan
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
@@ -21,13 +24,12 @@ import com.app.ecosort.view.camera.CameraActivity
 import com.app.ecosort.view.info.InfoActivity
 import com.app.ecosort.view.news.NewsActivity
 import com.app.ecosort.view.settings.SettingsActivity
+import com.google.android.material.internal.ToolbarUtils
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val  pref by lazy { PrefHelper(this) }
-
-//    @RequiresApi(Build.VERSION_CODES.P)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,15 +44,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         supportActionBar?.hide()
-
-        when(pref.getBoolean("dark_mode")) {
-            true -> {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            }
-            false -> {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
-        }
 
         binding.bottomNavView.selectedItemId = R.id.home
 
@@ -81,6 +74,29 @@ class MainActivity : AppCompatActivity() {
             startActivity(i)
         }
 
+        val toolbar = binding.toolbar
+        val typeface: Typeface? = ResourcesCompat.getFont(this, R.font.montserrat_semibold)
+
+        if (typeface != null) {
+            val spannableTitle = SpannableString(toolbar.title)
+            spannableTitle.setSpan(
+                TypefaceSpan(typeface),
+                0,
+                spannableTitle.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            toolbar.title = spannableTitle
+            toolbar.setTitleTextColor(Color.WHITE)
+        }
+
+        when(pref.getBoolean("dark_mode")) {
+            true -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }
+            false -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
     }
 
     @Deprecated("Deprecated in Java")

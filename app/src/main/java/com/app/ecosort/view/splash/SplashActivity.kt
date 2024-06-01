@@ -28,6 +28,10 @@ class SplashActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
+        Handler(Looper.getMainLooper()).postDelayed({
+            Splash()
+        },4000L )
+
         when(pref.getBoolean("dark_mode")) {
             true -> {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -36,10 +40,6 @@ class SplashActivity : AppCompatActivity() {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
         }
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            Splash()
-        },4000L )
     }
     
     private fun Splash() {

@@ -35,6 +35,11 @@ class RegisterActivity : AppCompatActivity() {
             insets
         }
 
+        setupView()
+        setupAction1()
+        setupAction2()
+        playAnimation()
+
         when(pref.getBoolean("dark_mode")) {
             true -> {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -43,11 +48,6 @@ class RegisterActivity : AppCompatActivity() {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
         }
-
-        setupView()
-        setupAction1()
-        setupAction2()
-        playAnimation()
 
     }
 
