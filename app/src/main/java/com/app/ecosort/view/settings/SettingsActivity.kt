@@ -39,6 +39,7 @@ class SettingsActivity : AppCompatActivity() {
         updateTheme()
         setContentView(binding.root)
 
+
         binding.switchTheme.isChecked = pref.getBoolean("dark_mode") // Memperbarui status switch
 
         binding.switchTheme.setOnCheckedChangeListener { compoundButton, isChecked ->
@@ -129,6 +130,8 @@ class SettingsActivity : AppCompatActivity() {
         super.onNewIntent(intent)
         updateTheme()
     }
+
+
 
     private fun setupView() {
         @Suppress("DEPRECATION")

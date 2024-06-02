@@ -98,11 +98,6 @@ class HistoryActivity : AppCompatActivity() {
         )
     }
 
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        updateTheme()
-    }
-
     private fun setupView() {
         @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {

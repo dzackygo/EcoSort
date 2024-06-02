@@ -44,10 +44,9 @@ class MainActivity() : AppCompatActivity() {
             insets
         }
 
-        setupView()
-
         binding.bottomNavView.selectedItemId = R.id.home
 
+        setupView()
 
         binding.bottomNavView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {

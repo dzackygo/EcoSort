@@ -16,11 +16,15 @@
         tools:targetApi="31">
         <activity
             android:name=".view.history.HistoryActivity"
-            android:launchMode="singleTask"
+
+            android:exported="false" />
+        <activity
+            android:name=".view.home.MainActivity"
+
             android:exported="false" />
         <activity
             android:name=".view.news.NewsActivity"
-            android:launchMode="singleTask"
+
             android:exported="false" />
         <activity
             android:name=".view.settings.SettingsActivity"
@@ -28,27 +32,24 @@
             android:exported="false" />
         <activity
             android:name=".view.camera.CameraActivity"
-            android:launchMode="singleTask"
+
             android:exported="false" />
         <activity
             android:name=".view.welcome.WelcomeActivity"
-            android:launchMode="singleTask"
+
             android:exported="false" />
         <activity
             android:name=".view.register.RegisterActivity"
-            android:launchMode="singleTask"
+
             android:exported="false" />
         <activity
             android:name=".view.login.LoginActivity"
-            android:launchMode="singleTask"
+
             android:exported="false" />
-        <activity
-            android:name=".view.home.MainActivity"
-            android:launchMode="singleTask"
-            android:exported="false" />
+
         <activity
             android:name=".view.splash.SplashActivity"
-            android:launchMode="singleTask"
+
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
