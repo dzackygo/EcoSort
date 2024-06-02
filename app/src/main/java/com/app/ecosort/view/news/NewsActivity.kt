@@ -1,6 +1,5 @@
 package com.app.ecosort.view.news
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
@@ -10,7 +9,6 @@ import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.TypefaceSpan
-import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
@@ -32,7 +30,7 @@ import com.app.ecosort.databinding.ActivityNewsBinding
 import com.app.ecosort.helper.PrefHelper
 import com.app.ecosort.view.camera.CameraActivity
 import com.app.ecosort.view.home.MainActivity
-import com.app.ecosort.view.info.InfoActivity
+import com.app.ecosort.view.history.HistoryActivity
 import com.app.ecosort.view.settings.SettingViewModel
 import com.app.ecosort.view.settings.SettingsActivity
 
@@ -86,8 +84,8 @@ class NewsActivity : AppCompatActivity() {
                     startActivity(Intent(this, NewsActivity::class.java))
                     true
                 }
-                R.id.info -> {
-                    startActivity(Intent(this, InfoActivity::class.java))
+                R.id.history -> {
+                    startActivity(Intent(this, HistoryActivity::class.java))
                     true
                 }
                 R.id.settings -> {

@@ -1,6 +1,5 @@
 package com.app.ecosort.view.home
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
@@ -8,8 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import android.text.style.TypefaceSpan
 import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
@@ -21,19 +18,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
 import com.app.ecosort.R
 import com.app.ecosort.databinding.ActivityMainBinding
 import com.app.ecosort.helper.PrefHelper
 import com.app.ecosort.view.camera.CameraActivity
-import com.app.ecosort.view.info.InfoActivity
+import com.app.ecosort.view.history.HistoryActivity
 import com.app.ecosort.view.news.NewsActivity
 import com.app.ecosort.view.settings.SettingViewModel
 import com.app.ecosort.view.settings.SettingsActivity
-import com.google.android.material.internal.ToolbarUtils
 
 class MainActivity() : AppCompatActivity() {
 
@@ -70,8 +62,8 @@ class MainActivity() : AppCompatActivity() {
                     startActivity(Intent(this, NewsActivity::class.java))
                     true
                 }
-                R.id.info -> {
-                    startActivity(Intent(this, InfoActivity::class.java))
+                R.id.history -> {
+                    startActivity(Intent(this, HistoryActivity::class.java))
                     true
                 }
                 R.id.settings -> {

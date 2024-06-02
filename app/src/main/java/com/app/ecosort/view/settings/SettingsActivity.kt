@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.TypefaceSpan
-import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -24,9 +23,8 @@ import com.app.ecosort.databinding.ActivitySettingsBinding
 import com.app.ecosort.helper.PrefHelper
 import com.app.ecosort.view.camera.CameraActivity
 import com.app.ecosort.view.home.MainActivity
-import com.app.ecosort.view.info.InfoActivity
+import com.app.ecosort.view.history.HistoryActivity
 import com.app.ecosort.view.news.NewsActivity
-import com.google.android.material.switchmaterial.SwitchMaterial
 
 class SettingsActivity : AppCompatActivity() {
     private val  pref by lazy { PrefHelper(this) }
@@ -76,8 +74,8 @@ class SettingsActivity : AppCompatActivity() {
                     startActivity(Intent(this, NewsActivity::class.java))
                     true
                 }
-                R.id.info -> {
-                    startActivity(Intent(this, InfoActivity::class.java))
+                R.id.history -> {
+                    startActivity(Intent(this, HistoryActivity::class.java))
                     true
                 }
                 R.id.settings -> {

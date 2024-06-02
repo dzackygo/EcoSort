@@ -1,6 +1,5 @@
-package com.app.ecosort.view.info
+package com.app.ecosort.view.history
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
@@ -8,7 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
 import android.text.style.TypefaceSpan
 import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
@@ -21,7 +19,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.app.ecosort.R
-import com.app.ecosort.databinding.ActivityInfoBinding
+import com.app.ecosort.databinding.ActivityHistoryBinding
 import com.app.ecosort.helper.PrefHelper
 import com.app.ecosort.view.camera.CameraActivity
 import com.app.ecosort.view.home.MainActivity
@@ -29,9 +27,9 @@ import com.app.ecosort.view.news.NewsActivity
 import com.app.ecosort.view.settings.SettingViewModel
 import com.app.ecosort.view.settings.SettingsActivity
 
-class InfoActivity : AppCompatActivity() {
+class HistoryActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityInfoBinding
+    private lateinit var binding: ActivityHistoryBinding
     private val viewModel by viewModels<SettingViewModel> {
         SettingViewModel.factory(PrefHelper(this))
     }
@@ -39,7 +37,7 @@ class InfoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding = ActivityInfoBinding.inflate(layoutInflater)
+        binding = ActivityHistoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -64,7 +62,7 @@ class InfoActivity : AppCompatActivity() {
 
         setupView()
 
-        binding.bottomNavView.selectedItemId = R.id.info
+        binding.bottomNavView.selectedItemId = R.id.history
 
         binding.bottomNavView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
@@ -76,8 +74,8 @@ class InfoActivity : AppCompatActivity() {
                     startActivity(Intent(this, NewsActivity::class.java))
                     true
                 }
-                R.id.info -> {
-                    startActivity(Intent(this, InfoActivity::class.java))
+                R.id.history -> {
+                    startActivity(Intent(this, HistoryActivity::class.java))
                     true
                 }
                 R.id.settings -> {
@@ -89,7 +87,7 @@ class InfoActivity : AppCompatActivity() {
         }
 
         binding.cameraActivity.setOnClickListener() {
-            val i = Intent(this@InfoActivity, CameraActivity::class.java)
+            val i = Intent(this@HistoryActivity, CameraActivity::class.java)
             startActivity(i)
         }
 

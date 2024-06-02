@@ -24,7 +24,7 @@
             android:layout_height="60dp"
             android:background="@color/action_bar"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:title="News"
+            app:title="Related News"
             app:titleMargin="4dp"
             app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"
             app:titleTextColor="@color/buttonNavBar" />

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".view.info.InfoActivity">
+    tools:context=".view.history.HistoryActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -24,7 +24,7 @@
             android:layout_height="60dp"
             android:background="@color/action_bar"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:title="Info"
+            app:title="History Saved"
             app:titleMargin="4dp"
             app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"
             app:titleTextColor="@color/buttonNavBar" />

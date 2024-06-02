@@ -15,7 +15,7 @@
         android:theme="@style/Theme.EcoSort"
         tools:targetApi="31">
         <activity
-            android:name=".view.info.InfoActivity"
+            android:name=".view.history.HistoryActivity"
             android:exported="false" />
         <activity
             android:name=".view.news.NewsActivity"
