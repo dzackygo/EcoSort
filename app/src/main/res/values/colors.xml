@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="background">#F5F7F8</color>
+    <color name="background">#F2F2F2</color>
     <color name="button">#FF7EB712</color>
     <color name="action_bar">#7EB712</color>
-    <color name="floating_buton">#7EB712</color>
     <color name="text_button">#FFFFFF</color>
     <color name="title">#000000</color>
     <color name="subtitle">#4D4D4D</color>
+    <color name="button_camera">#FF7EB712</color>
+    <color name="card">#FFFFFF</color>
+    <color name="text_light">#2F2E41</color>
+    <color name="buttonNavBar">#FFFFFF</color>
+    <color name="unselected">#5E6579</color>
+
+    
 </resources>

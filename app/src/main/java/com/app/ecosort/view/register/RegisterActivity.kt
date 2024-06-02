@@ -9,14 +9,22 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.app.ecosort.R
 import com.app.ecosort.databinding.ActivityRegisterBinding
+import com.app.ecosort.helper.PrefHelper
 import com.app.ecosort.view.login.LoginActivity
+import com.app.ecosort.view.settings.SettingViewModel
 
 class RegisterActivity : AppCompatActivity() {
+
+    private val viewModel by viewModels<SettingViewModel> {
+        SettingViewModel.factory(PrefHelper(this))
+    }
 
     private lateinit var binding: ActivityRegisterBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +43,14 @@ class RegisterActivity : AppCompatActivity() {
         setupAction1()
         setupAction2()
         playAnimation()
+
+        viewModel.getTheme().observe(this) {
+            if (it) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
 
     }
 
@@ -95,4 +111,10 @@ class RegisterActivity : AppCompatActivity() {
         }.start()
     }
 
+    @Deprecated("Deprecated in Java",
+        ReplaceWith("super.onBackPressed()", "androidx.appcompat.app.AppCompatActivity")
+    )
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
 }
