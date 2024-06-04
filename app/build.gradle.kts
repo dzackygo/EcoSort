@@ -47,6 +47,9 @@ android {
 
 dependencies {
 
+    val cameraxVersion = "1.2.3"
+
+
     implementation("com.airbnb.android:lottie:3.6.1")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -73,7 +76,9 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation("androidx.datastore:datastore-preferences-core:1.0.0")
 
-
+    implementation("androidx.camera:camera-camera2:$cameraxVersion")
+    implementation("androidx.camera:camera-lifecycle:$cameraxVersion")
+    implementation("androidx.camera:camera-view:$cameraxVersion")
 
 
     implementation("androidx.activity:activity-ktx:1.7.2")

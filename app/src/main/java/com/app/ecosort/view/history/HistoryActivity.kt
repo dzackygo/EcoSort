@@ -17,9 +17,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.ecosort.R
+import com.app.ecosort.adapter.HistoryAdapter
 import com.app.ecosort.databinding.ActivityHistoryBinding
 import com.app.ecosort.helper.PrefHelper
+import com.app.ecosort.view.ViewModelFactory
 import com.app.ecosort.view.camera.CameraActivity
 import com.app.ecosort.view.home.MainActivity
 import com.app.ecosort.view.news.NewsActivity
@@ -36,6 +40,17 @@ class HistoryActivity : AppCompatActivity() {
         binding = ActivityHistoryBinding.inflate(layoutInflater)
         updateTheme()
         setContentView(binding.root)
+
+        binding?.rvHistory?.layoutManager = LinearLayoutManager(this)
+        binding?.rvHistory?.setHasFixedSize(true)
+
+        val mainViewModel = obtainViewModel(this@HistoryActivity)
+        mainViewModel.getAllNotes().observe(this) { historyList ->
+            if (historyList != null) {
+                val adapter = HistoryAdapter(historyList)
+                binding?.rvHistory?.adapter = adapter
+            }
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -89,6 +104,11 @@ class HistoryActivity : AppCompatActivity() {
         }
     }
 
+    private fun obtainViewModel(activity: AppCompatActivity): HistoryViewModel {
+        val factory = ViewModelFactory.getInstance(activity.application)
+        return ViewModelProvider(activity, factory).get(HistoryViewModel::class.java)
+    }
+
     private fun updateTheme() {
         val pref = PrefHelper(this)
         val isDarkModeEnabled = pref.getBoolean("dark_mode")
@@ -112,6 +132,7 @@ class HistoryActivity : AppCompatActivity() {
     }
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
+        super.onBackPressed()
         showExitConfirmationDialog()
     }
 
