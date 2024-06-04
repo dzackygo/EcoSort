@@ -1,17 +1,14 @@
 package com.app.ecosort.view.camera
 
-import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
 import android.text.style.TypefaceSpan
 import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -22,20 +19,24 @@ import androidx.core.view.WindowInsetsCompat
 import com.app.ecosort.R
 import com.app.ecosort.databinding.ActivityCameraBinding
 import com.app.ecosort.helper.PrefHelper
-import com.app.ecosort.view.settings.SettingViewModel
 
 class CameraActivity : AppCompatActivity() {
 
+    private val  pref by lazy { PrefHelper(this) }
     private lateinit var binding: ActivityCameraBinding
-    private val viewModel by viewModels<SettingViewModel> {
-        SettingViewModel.factory(PrefHelper(this))
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityCameraBinding.inflate(layoutInflater)
+        updateTheme()
         setContentView(binding.root)
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -58,15 +59,15 @@ class CameraActivity : AppCompatActivity() {
         }
 
         setupView()
+    }
 
-        viewModel.getTheme().observe(this) {
-            if (it) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
-        }
-
+    private fun updateTheme() {
+        val pref = PrefHelper(this)
+        val isDarkModeEnabled = pref.getBoolean("dark_mode")
+        AppCompatDelegate.setDefaultNightMode(
+            if (isDarkModeEnabled) AppCompatDelegate.MODE_NIGHT_YES
+            else AppCompatDelegate.MODE_NIGHT_NO
+        )
     }
 
     private fun setupView() {

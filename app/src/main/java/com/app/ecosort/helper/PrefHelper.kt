@@ -1,26 +1,27 @@
 package com.app.ecosort.helper
 
 import android.content.Context
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.preferencesDataStore
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import android.content.SharedPreferences
 
-private val Context.prefDataStore by  preferencesDataStore("Settings")
-class PrefHelper constructor (context: Context) {
+class PrefHelper (context: Context) {
 
-    private val settingsDataStore = context.prefDataStore
-    private val themeKEY = booleanPreferencesKey("theme_setting")
+    private val PREFS_NAME = "getSharedPreferences"
+    private var sharedPref: SharedPreferences
+    val editor: SharedPreferences.Editor
 
-    fun getThemeSetting(): Flow<Boolean> =
-        settingsDataStore.data.map { preferences ->
-            preferences[themeKEY] ?: false
+    init {
+        sharedPref = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        editor = sharedPref.edit()
     }
 
-    suspend fun saveThemeSetting(isDarkModeActive : Boolean) {
-        settingsDataStore.edit { preferences ->
-            preferences[themeKEY] = isDarkModeActive
-        }
+    fun put(key: String, value: Boolean) {
+        editor.putBoolean(key, value)
+            .apply()
     }
+
+    fun getBoolean(key: String): Boolean {
+        return sharedPref.getBoolean(key, false)
+    }
+
+
 }

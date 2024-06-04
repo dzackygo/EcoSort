@@ -10,7 +10,6 @@ import android.text.SpannableString
 import android.text.style.TypefaceSpan
 import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -22,16 +21,13 @@ import com.app.ecosort.R
 import com.app.ecosort.databinding.ActivitySettingsBinding
 import com.app.ecosort.helper.PrefHelper
 import com.app.ecosort.view.camera.CameraActivity
-import com.app.ecosort.view.home.MainActivity
 import com.app.ecosort.view.history.HistoryActivity
+import com.app.ecosort.view.home.MainActivity
 import com.app.ecosort.view.news.NewsActivity
 
 class SettingsActivity : AppCompatActivity() {
-    private val  pref by lazy { PrefHelper(this) }
 
-    private val viewModel by viewModels<SettingViewModel> {
-        SettingViewModel.factory(PrefHelper(this))
-    }
+    private val  pref by lazy { PrefHelper(this) }
 
     private lateinit var binding: ActivitySettingsBinding
 
@@ -40,7 +36,24 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivitySettingsBinding.inflate(layoutInflater)
+        updateTheme()
         setContentView(binding.root)
+
+
+        binding.switchTheme.isChecked = pref.getBoolean("dark_mode") // Memperbarui status switch
+
+        binding.switchTheme.setOnCheckedChangeListener { compoundButton, isChecked ->
+            when (isChecked) {
+                true -> {
+                    pref.put("dark_mode", true)
+                    updateTheme() // Panggil updateTheme() untuk memperbarui tema
+                }
+                false -> {
+                    pref.put("dark_mode", false)
+                    updateTheme() // Panggil updateTheme() untuk memperbarui tema
+                }
+            }
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -92,20 +105,33 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         setupView()
-
-        viewModel.getTheme().observe(this) {
-            if (it) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
-            binding.switchTheme.isChecked = it
-        }
-
-        binding.switchTheme.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.saveTheme(isChecked)
-        }
     }
+
+
+    private fun updateTheme() {
+        val isDarkModeEnabled = pref.getBoolean("dark_mode")
+        AppCompatDelegate.setDefaultNightMode(
+            if (isDarkModeEnabled) AppCompatDelegate.MODE_NIGHT_YES
+            else AppCompatDelegate.MODE_NIGHT_NO
+        )
+    }
+
+    private fun savePreferences() {
+        val isDarkModeEnabled = binding.switchTheme.isChecked
+        pref.put("dark_mode", isDarkModeEnabled)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        savePreferences()
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        updateTheme()
+    }
+
+
 
     private fun setupView() {
         @Suppress("DEPRECATION")

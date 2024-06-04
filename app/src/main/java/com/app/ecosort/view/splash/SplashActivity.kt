@@ -5,30 +5,25 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.app.ecosort.R
+import com.app.ecosort.databinding.ActivitySplashBinding
 import com.app.ecosort.helper.PrefHelper
-import com.app.ecosort.view.settings.SettingViewModel
 import com.app.ecosort.view.welcome.WelcomeActivity
 
 class SplashActivity : AppCompatActivity() {
-    private val viewModel by viewModels<SettingViewModel> {
-        SettingViewModel.factory(PrefHelper(this))
-    }
+
+    private val  pref by lazy { PrefHelper(this) }
+    private lateinit var binding: ActivitySplashBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        binding = ActivitySplashBinding.inflate(layoutInflater)
+        updateTheme()
         setContentView(R.layout.activity_splash)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
         supportActionBar?.hide()
 
@@ -36,15 +31,22 @@ class SplashActivity : AppCompatActivity() {
             Splash()
         },4000L )
 
-        viewModel.getTheme().observe(this) {
-            if (it) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
-        }
     }
-    
+
+    private fun updateTheme() {
+        val pref = PrefHelper(this)
+        val isDarkModeEnabled = pref.getBoolean("dark_mode")
+        AppCompatDelegate.setDefaultNightMode(
+            if (isDarkModeEnabled) AppCompatDelegate.MODE_NIGHT_YES
+            else AppCompatDelegate.MODE_NIGHT_NO
+        )
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        updateTheme()
+    }
+
     private fun Splash() {
         Intent(this, WelcomeActivity::class.java).also {
             startActivity(it)

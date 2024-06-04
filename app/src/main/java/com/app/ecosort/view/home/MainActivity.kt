@@ -24,21 +24,18 @@ import com.app.ecosort.helper.PrefHelper
 import com.app.ecosort.view.camera.CameraActivity
 import com.app.ecosort.view.history.HistoryActivity
 import com.app.ecosort.view.news.NewsActivity
-import com.app.ecosort.view.settings.SettingViewModel
 import com.app.ecosort.view.settings.SettingsActivity
 
 class MainActivity() : AppCompatActivity() {
 
+    private val  pref by lazy { PrefHelper(this) }
     private lateinit var binding: ActivityMainBinding
-
-    private val viewModel by viewModels<SettingViewModel> {
-        SettingViewModel.factory(PrefHelper(this))
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
+        updateTheme()
         setContentView(binding.root)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -47,10 +44,9 @@ class MainActivity() : AppCompatActivity() {
             insets
         }
 
-        setupView()
-
         binding.bottomNavView.selectedItemId = R.id.home
 
+        setupView()
 
         binding.bottomNavView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
@@ -93,15 +89,20 @@ class MainActivity() : AppCompatActivity() {
             toolbar.title = spannableTitle
             toolbar.setTitleTextColor(Color.WHITE)
         }
+    }
 
-        viewModel.getTheme().observe(this) {
-            if (it) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
-        }
+    private fun updateTheme() {
+        val pref = PrefHelper(this)
+        val isDarkModeEnabled = pref.getBoolean("dark_mode")
+        AppCompatDelegate.setDefaultNightMode(
+            if (isDarkModeEnabled) AppCompatDelegate.MODE_NIGHT_YES
+            else AppCompatDelegate.MODE_NIGHT_NO
+        )
+    }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        updateTheme()
     }
 
     private fun setupView() {

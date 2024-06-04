@@ -10,7 +10,6 @@ import android.text.SpannableString
 import android.text.style.TypefaceSpan
 import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -24,20 +23,18 @@ import com.app.ecosort.helper.PrefHelper
 import com.app.ecosort.view.camera.CameraActivity
 import com.app.ecosort.view.home.MainActivity
 import com.app.ecosort.view.news.NewsActivity
-import com.app.ecosort.view.settings.SettingViewModel
 import com.app.ecosort.view.settings.SettingsActivity
 
 class HistoryActivity : AppCompatActivity() {
 
+    private val  pref by lazy { PrefHelper(this) }
     private lateinit var binding: ActivityHistoryBinding
-    private val viewModel by viewModels<SettingViewModel> {
-        SettingViewModel.factory(PrefHelper(this))
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityHistoryBinding.inflate(layoutInflater)
+        updateTheme()
         setContentView(binding.root)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -90,15 +87,15 @@ class HistoryActivity : AppCompatActivity() {
             val i = Intent(this@HistoryActivity, CameraActivity::class.java)
             startActivity(i)
         }
+    }
 
-        viewModel.getTheme().observe(this) {
-            if (it) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
-        }
-
+    private fun updateTheme() {
+        val pref = PrefHelper(this)
+        val isDarkModeEnabled = pref.getBoolean("dark_mode")
+        AppCompatDelegate.setDefaultNightMode(
+            if (isDarkModeEnabled) AppCompatDelegate.MODE_NIGHT_YES
+            else AppCompatDelegate.MODE_NIGHT_NO
+        )
     }
 
     private fun setupView() {

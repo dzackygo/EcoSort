@@ -12,7 +12,6 @@ import android.text.style.TypefaceSpan
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -29,17 +28,14 @@ import com.app.ecosort.adapter.NewsAdapter
 import com.app.ecosort.databinding.ActivityNewsBinding
 import com.app.ecosort.helper.PrefHelper
 import com.app.ecosort.view.camera.CameraActivity
-import com.app.ecosort.view.home.MainActivity
 import com.app.ecosort.view.history.HistoryActivity
-import com.app.ecosort.view.settings.SettingViewModel
+import com.app.ecosort.view.home.MainActivity
 import com.app.ecosort.view.settings.SettingsActivity
 
 class NewsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityNewsBinding
-    private val viewModel by viewModels<SettingViewModel> {
-        SettingViewModel.factory(PrefHelper(this))
-    }
+    private val  pref by lazy { PrefHelper(this) }
     private lateinit var newsAdapter: NewsAdapter
     private lateinit var newsViewModel: NewsViewModel
     private lateinit var newsRecyclerView: RecyclerView
@@ -48,6 +44,7 @@ class NewsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityNewsBinding.inflate(layoutInflater)
+        updateTheme()
         setContentView(binding.root)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -109,14 +106,20 @@ class NewsActivity : AppCompatActivity() {
         newsViewModel.newsList.observe(this, Observer { newsList ->
             newsAdapter.submitList(newsList)
         })
+    }
 
-        viewModel.getTheme().observe(this) {
-            if (it) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
-        }
+    private fun updateTheme() {
+        val pref = PrefHelper(this)
+        val isDarkModeEnabled = pref.getBoolean("dark_mode")
+        AppCompatDelegate.setDefaultNightMode(
+            if (isDarkModeEnabled) AppCompatDelegate.MODE_NIGHT_YES
+            else AppCompatDelegate.MODE_NIGHT_NO
+        )
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        updateTheme()
     }
 
     private fun setupView() {
