@@ -4,10 +4,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
-    private val retrofit = Retrofit.Builder()
+    private val newsRetrofit = Retrofit.Builder()
         .baseUrl(ApiConfig.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    val newsApiService: NewsApiService = retrofit.create(NewsApiService::class.java)
+    val newsApiService: NewsApiService = newsRetrofit.create(NewsApiService::class.java)
 }

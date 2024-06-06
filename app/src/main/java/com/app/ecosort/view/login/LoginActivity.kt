@@ -8,54 +8,38 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
-import androidx.activity.enableEdgeToEdge
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.app.ecosort.R
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import com.app.ecosort.ViewModelFactory
+import com.app.ecosort.api.ApiConfig
+import com.app.ecosort.data.pref.UserModel
 import com.app.ecosort.databinding.ActivityLoginBinding
 import com.app.ecosort.helper.PrefHelper
 import com.app.ecosort.view.home.MainActivity
 import com.app.ecosort.view.register.RegisterActivity
+import kotlinx.coroutines.launch
 
+@Suppress("DEPRECATION")
 class LoginActivity : AppCompatActivity() {
-
     private val  pref by lazy { PrefHelper(this) }
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var loginViewModel: LoginViewModel
+    private var backPressedTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityLoginBinding.inflate(layoutInflater)
-        updateTheme()
         setContentView(binding.root)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        loginViewModel = ViewModelProvider(this, ViewModelFactory.getInstance(this))[LoginViewModel::class.java]
 
         setupView()
-        setupAction1()
-        setupAction2()
+        setupAction()
         playAnimation()
-
-    }
-
-    private fun updateTheme() {
-        val pref = PrefHelper(this)
-        val isDarkModeEnabled = pref.getBoolean("dark_mode")
-        AppCompatDelegate.setDefaultNightMode(
-            if (isDarkModeEnabled) AppCompatDelegate.MODE_NIGHT_YES
-            else AppCompatDelegate.MODE_NIGHT_NO
-        )
-    }
-
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        updateTheme()
+        setupAction2()
     }
 
     private fun setupView() {
@@ -70,15 +54,66 @@ class LoginActivity : AppCompatActivity() {
         supportActionBar?.hide()
     }
 
-    private fun setupAction1() {
+    private fun setupAction() {
         binding.loginButton.setOnClickListener { performLogin() }
     }
-
     private fun setupAction2() {
-        binding.hrefSignUp.setOnClickListener {startActivity(Intent(this, RegisterActivity::class.java)) }
+        binding.hrefSignUp.setOnClickListener {startActivity(Intent(this, RegisterActivity::class.java))
+        }
+    }
+
+    private fun performLogin() {
+        binding.progressBar.visibility = View.VISIBLE
+
+        val email = binding.emailEditText.text.toString()
+        val password = binding.passwordEditText.text.toString()
+
+        lifecycleScope.launch {
+            try {
+                loginViewModel.login(email, password)
+                val userModelFlow = loginViewModel.getSession()
+
+                userModelFlow.collect { userModel ->
+                    loginViewModel.saveSession(userModel)
+                    ApiConfig.setAuthToken(userModel.token)
+                    showDataStoredInDataStore(userModel)
+                }
+
+            } catch (e: Exception) {
+                showErrorMessage(e.message ?: "Account failed to login")
+            } finally {
+                binding.progressBar.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun showErrorMessage(message: String) {
+        AlertDialog.Builder(this).apply {
+            setTitle("Login Failed")
+            setMessage("Please complete all data correctly")
+            setPositiveButton("OK", null)
+            create()
+            show()
+        }
+    }
+
+    private fun showDataStoredInDataStore(userModel: UserModel) {
+        AlertDialog.Builder(this)
+            .setTitle("Login Successful")
+            .setMessage("Tap \"Ok\" to continue to the next page")
+            .setPositiveButton("Ok") { dialog, _ ->
+                dialog.dismiss()
+                lifecycleScope.launch {
+                    loginViewModel.saveSession(userModel)
+                }
+                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                finish()
+            }
+            .show()
     }
 
     private fun playAnimation() {
+
         val title = ObjectAnimator.ofFloat(binding.titleTextView, View.ALPHA, 1f).setDuration(100)
         val message = ObjectAnimator.ofFloat(binding.messageTextView, View.ALPHA, 1f).setDuration(100)
         val emailTextView = ObjectAnimator.ofFloat(binding.emailTextView, View.ALPHA, 1f).setDuration(100)
@@ -102,22 +137,15 @@ class LoginActivity : AppCompatActivity() {
             startDelay = 100
         }.start()
     }
-
-    private fun performLogin() {
-        binding.progressBar.visibility = View.VISIBLE
-
-        val email = binding.emailEditText.text.toString()
-        val password = binding.passwordEditText.text.toString()
-
-        val moveIntent = Intent(this@LoginActivity, MainActivity::class.java)
-        startActivity(moveIntent)
-    }
-
     @Deprecated("Deprecated in Java",
         ReplaceWith("super.onBackPressed()", "androidx.appcompat.app.AppCompatActivity")
     )
     override fun onBackPressed() {
-        super.onBackPressed()
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            finishAffinity()
+        } else {
+            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show()
+        }
+        backPressedTime = System.currentTimeMillis()
     }
-
 }

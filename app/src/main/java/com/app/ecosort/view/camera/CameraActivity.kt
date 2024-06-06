@@ -8,6 +8,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.TypefaceSpan
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +25,7 @@ class CameraActivity : AppCompatActivity() {
 
     private val  pref by lazy { PrefHelper(this) }
     private lateinit var binding: ActivityCameraBinding
+    private var backPressedTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +33,7 @@ class CameraActivity : AppCompatActivity() {
         binding = ActivityCameraBinding.inflate(layoutInflater)
         updateTheme()
         setContentView(binding.root)
+        overridePendingTransition(0, 0)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -38,11 +41,6 @@ class CameraActivity : AppCompatActivity() {
             insets
         }
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
         val toolbar = binding.toolbar
         val typeface: Typeface? = ResourcesCompat.getFont(this, R.font.montserrat_semibold)
@@ -83,21 +81,18 @@ class CameraActivity : AppCompatActivity() {
         supportActionBar?.hide()
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        showExitConfirmationDialog()
+    override fun onPause() {
+        super.onPause()
+        overridePendingTransition(0, 0)
     }
 
-    private fun showExitConfirmationDialog() {
-        AlertDialog.Builder(this)
-            .setTitle("Confirmation of Exit")
-            .setMessage("Are you sure you want to exit the app?")
-            .setPositiveButton("Yes") { _, _ ->
-                super.onBackPressed()
-            }
-            .setNegativeButton("No") { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            finishAffinity()
+        } else {
+            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show()
+        }
+        backPressedTime = System.currentTimeMillis()
     }
 }

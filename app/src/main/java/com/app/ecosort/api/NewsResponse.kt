@@ -7,7 +7,6 @@ data class NewsResponse(
     @SerializedName("totalResults") val totalResults: Int,
     @SerializedName("articles") val articles: List<Article>
 )
-
 data class Article(
     @SerializedName("source") val source: Source,
     @SerializedName("author") val author: String?,

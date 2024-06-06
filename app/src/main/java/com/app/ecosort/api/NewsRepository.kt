@@ -26,7 +26,6 @@ class NewsRepository {
                         onFailure("Failed to fetch news")
                     }
                 }
-
                 override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
                     onFailure(t.message ?: "Unknown error")
                 }

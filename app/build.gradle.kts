@@ -18,6 +18,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "NEWS_API_KEY", "\"a7ef6b8a6705499aac44ba446420c3f2\"")
+//        buildConfigField("String", "AUTH_URL", "\"https://bangkit-backend-rp.rap.my.id/api/v1/\"")
         buildConfigField("String", "NEWS_API_URL", "\"https://newsapi.org/v2/\"")
     }
 
@@ -83,11 +84,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel:2.3.1")
   
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
-    implementation("androidx.paging:paging-runtime-ktx:3.2.1")
-    testImplementation("androidx.arch.core:core-testing:2.2.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1")
-    testImplementation("org.mockito:mockito-core:4.4.0")
-    testImplementation("org.mockito:mockito-inline:4.4.0")
-    testImplementation("org.robolectric:robolectric:4.2.1")
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
 }
