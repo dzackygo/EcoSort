@@ -18,11 +18,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
 import com.app.ecosort.R
+import com.app.ecosort.ViewModelFactory
 import com.app.ecosort.databinding.ActivityHistoryBinding
 import com.app.ecosort.helper.PrefHelper
 import com.app.ecosort.view.camera.CameraActivity
 import com.app.ecosort.view.home.MainActivity
+import com.app.ecosort.view.login.LoginViewModel
 import com.app.ecosort.view.news.NewsActivity
 import com.app.ecosort.view.settings.SettingsActivity
 
@@ -30,6 +33,7 @@ class HistoryActivity : AppCompatActivity() {
 
     private val  pref by lazy { PrefHelper(this) }
     private lateinit var binding: ActivityHistoryBinding
+    private lateinit var historyViewModel: HistoryViewModel
     private var backPressedTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +43,9 @@ class HistoryActivity : AppCompatActivity() {
         updateTheme()
         setContentView(binding.root)
         overridePendingTransition(0, 0)
+
+        historyViewModel = ViewModelProvider(this, ViewModelFactory.getInstance(this))[HistoryViewModel::class.java]
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

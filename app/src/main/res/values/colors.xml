@@ -11,6 +11,7 @@
     <color name="text_light">#2F2E41</color>
     <color name="buttonNavBar">#FFFFFF</color>
     <color name="unselected">#5E6579</color>
+    <color name="transparant">#7C000000</color>
 
     
 </resources>

@@ -3,6 +3,7 @@ package com.app.ecosort.view
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.app.ecosort.view.gallery.GalleryViewModel
 import com.app.ecosort.view.history.HistoryViewModel
 import com.app.ecosort.view.news.NewsActivity
 import com.app.ecosort.view.news.NewsViewModel
@@ -28,6 +29,9 @@ class ViewModelFactory private constructor(private val mApplication: Application
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(HistoryViewModel::class.java)) {
             return HistoryViewModel(mApplication) as T
+        }
+        else if (modelClass.isAssignableFrom(GalleryViewModel::class.java)){
+            return GalleryViewModel(mApplication) as T
         }
 //        else if (modelClass.isAssignableFrom(ResultActivity::class.java)) {
 //            return HistoryViewModel(mApplication) as T

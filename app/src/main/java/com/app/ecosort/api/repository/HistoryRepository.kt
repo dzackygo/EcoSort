@@ -1,4 +1,4 @@
-package com.app.ecosort.api
+package com.app.ecosort.api.repository
 
 import android.app.Application
 import androidx.lifecycle.LiveData
