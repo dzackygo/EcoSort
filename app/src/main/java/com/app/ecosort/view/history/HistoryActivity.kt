@@ -9,6 +9,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.TypefaceSpan
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -17,13 +18,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.ecosort.R
-import com.app.ecosort.adapter.HistoryAdapter
 import com.app.ecosort.databinding.ActivityHistoryBinding
 import com.app.ecosort.helper.PrefHelper
-import com.app.ecosort.view.ViewModelFactory
 import com.app.ecosort.view.camera.CameraActivity
 import com.app.ecosort.view.home.MainActivity
 import com.app.ecosort.view.news.NewsActivity
@@ -33,6 +30,7 @@ class HistoryActivity : AppCompatActivity() {
 
     private val  pref by lazy { PrefHelper(this) }
     private lateinit var binding: ActivityHistoryBinding
+    private var backPressedTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,17 +38,7 @@ class HistoryActivity : AppCompatActivity() {
         binding = ActivityHistoryBinding.inflate(layoutInflater)
         updateTheme()
         setContentView(binding.root)
-
-        binding?.rvHistory?.layoutManager = LinearLayoutManager(this)
-        binding?.rvHistory?.setHasFixedSize(true)
-
-        val mainViewModel = obtainViewModel(this@HistoryActivity)
-        mainViewModel.getAllNotes().observe(this) { historyList ->
-            if (historyList != null) {
-                val adapter = HistoryAdapter(historyList)
-                binding?.rvHistory?.adapter = adapter
-            }
-        }
+        overridePendingTransition(0, 0)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -79,19 +67,19 @@ class HistoryActivity : AppCompatActivity() {
         binding.bottomNavView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.home -> {
-                    startActivity(Intent(this, MainActivity::class.java))
+                    startActivity(Intent(this,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
                     true
                 }
                 R.id.news -> {
-                    startActivity(Intent(this, NewsActivity::class.java))
+                    startActivity(Intent(this, NewsActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
                     true
                 }
                 R.id.history -> {
-                    startActivity(Intent(this, HistoryActivity::class.java))
+                    startActivity(Intent(this, HistoryActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
                     true
                 }
                 R.id.settings -> {
-                    startActivity(Intent(this, SettingsActivity::class.java))
+                    startActivity(Intent(this, SettingsActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
                     true
                 }
                 else -> false
@@ -102,11 +90,6 @@ class HistoryActivity : AppCompatActivity() {
             val i = Intent(this@HistoryActivity, CameraActivity::class.java)
             startActivity(i)
         }
-    }
-
-    private fun obtainViewModel(activity: AppCompatActivity): HistoryViewModel {
-        val factory = ViewModelFactory.getInstance(activity.application)
-        return ViewModelProvider(activity, factory).get(HistoryViewModel::class.java)
     }
 
     private fun updateTheme() {
@@ -130,22 +113,19 @@ class HistoryActivity : AppCompatActivity() {
         }
         supportActionBar?.hide()
     }
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        super.onBackPressed()
-        showExitConfirmationDialog()
+
+    override fun onPause() {
+        super.onPause()
+        overridePendingTransition(0, 0)
     }
 
-    private fun showExitConfirmationDialog() {
-        AlertDialog.Builder(this)
-            .setTitle("Confirmation of Exit")
-            .setMessage("Are you sure you want to exit the app?")
-            .setPositiveButton("Yes") { _, _ ->
-                super.onBackPressed()
-            }
-            .setNegativeButton("No") { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            finishAffinity()
+        } else {
+            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show()
+        }
+        backPressedTime = System.currentTimeMillis()
     }
 }

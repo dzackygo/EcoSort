@@ -30,8 +30,7 @@
             app:titleTextColor="@color/buttonNavBar" />
 
     </com.google.android.material.appbar.AppBarLayout>
-
-
+    
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavView"
         android:layout_width="wrap_content"

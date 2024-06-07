@@ -8,7 +8,9 @@ import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.TypefaceSpan
+import android.view.Menu
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -18,18 +20,29 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.app.ecosort.R
+import com.app.ecosort.data.pref.UserPreference
+import com.app.ecosort.data.pref.dataStore
 import com.app.ecosort.databinding.ActivitySettingsBinding
 import com.app.ecosort.helper.PrefHelper
 import com.app.ecosort.view.camera.CameraActivity
 import com.app.ecosort.view.history.HistoryActivity
 import com.app.ecosort.view.home.MainActivity
+import com.app.ecosort.view.home.MainViewModel
 import com.app.ecosort.view.news.NewsActivity
+import com.app.ecosort.view.welcome.WelcomeActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 class SettingsActivity : AppCompatActivity() {
 
     private val  pref by lazy { PrefHelper(this) }
-
+    private var backPressedTime: Long = 0
     private lateinit var binding: ActivitySettingsBinding
+    private lateinit var mainViewModel: MainViewModel
+    private lateinit var userPreference: UserPreference
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,19 +51,22 @@ class SettingsActivity : AppCompatActivity() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         updateTheme()
         setContentView(binding.root)
+//        overridePendingTransition(0, 0)
+
+        userPreference = UserPreference.getInstance(dataStore)
 
 
-        binding.switchTheme.isChecked = pref.getBoolean("dark_mode") // Memperbarui status switch
+        binding.switchTheme.isChecked = pref.getBoolean("dark_mode")
 
         binding.switchTheme.setOnCheckedChangeListener { compoundButton, isChecked ->
             when (isChecked) {
                 true -> {
                     pref.put("dark_mode", true)
-                    updateTheme() // Panggil updateTheme() untuk memperbarui tema
+                    updateTheme()
                 }
                 false -> {
                     pref.put("dark_mode", false)
-                    updateTheme() // Panggil updateTheme() untuk memperbarui tema
+                    updateTheme()
                 }
             }
         }
@@ -80,19 +96,19 @@ class SettingsActivity : AppCompatActivity() {
         binding.bottomNavView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.home -> {
-                    startActivity(Intent(this, MainActivity::class.java))
+                    startActivity(Intent(this,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
                     true
                 }
                 R.id.news -> {
-                    startActivity(Intent(this, NewsActivity::class.java))
+                    startActivity(Intent(this, NewsActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
                     true
                 }
                 R.id.history -> {
-                    startActivity(Intent(this, HistoryActivity::class.java))
+                    startActivity(Intent(this, HistoryActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
                     true
                 }
                 R.id.settings -> {
-                    startActivity(Intent(this, SettingsActivity::class.java))
+                    startActivity(Intent(this, SettingsActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
                     true
                 }
                 else -> false
@@ -104,9 +120,17 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(i)
         }
 
+        binding.logout.setOnClickListener() {
+            showLogoutConfirmationDialog()
+        }
+
         setupView()
     }
 
+    override fun onPause() {
+        super.onPause()
+        overridePendingTransition(0, 0)
+    }
 
     private fun updateTheme() {
         val isDarkModeEnabled = pref.getBoolean("dark_mode")
@@ -131,7 +155,10 @@ class SettingsActivity : AppCompatActivity() {
         updateTheme()
     }
 
-
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.bottom_menu, menu)
+        return true
+    }
 
     private fun setupView() {
         @Suppress("DEPRECATION")
@@ -148,19 +175,28 @@ class SettingsActivity : AppCompatActivity() {
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
-        showExitConfirmationDialog()
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            finishAffinity()
+        } else {
+            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show()
+        }
+        backPressedTime = System.currentTimeMillis()
     }
 
-    private fun showExitConfirmationDialog() {
+    private fun showLogoutConfirmationDialog() {
         AlertDialog.Builder(this)
-            .setTitle("Confirmation of Exit")
-            .setMessage("Are you sure you want to exit the app?")
+            .setTitle("Confirmation of Logout")
+            .setMessage("Are you sure you want to log out?")
             .setPositiveButton("Yes") { _, _ ->
-                super.onBackPressed()
+                CoroutineScope(Dispatchers.IO).launch {
+                    userPreference.logout()
+                    userPreference.getSession().first()
+                    val intent = Intent(this@SettingsActivity, WelcomeActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
             }
-            .setNegativeButton("No") { dialog, _ ->
-                dialog.dismiss()
-            }
+            .setNegativeButton("No", null)
             .show()
     }
 }
