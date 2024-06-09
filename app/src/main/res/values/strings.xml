@@ -82,5 +82,6 @@
     <string name="error_message">Please complete all data correctly</string>
     <string name="ok">Ok</string>
     <string name="goToLogin">Go to Login Page</string>
+    <string name="or">Or</string>
 
 </resources>

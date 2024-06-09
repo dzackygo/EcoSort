@@ -1,6 +1,8 @@
 package com.app.ecosort.view.settings
 
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build

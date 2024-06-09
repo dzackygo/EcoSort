@@ -32,7 +32,7 @@
         <activity
             android:name=".view.settings.SettingsActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"/>
         <activity
             android:name=".view.camera.CameraActivity"
             android:exported="false" />

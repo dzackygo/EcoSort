@@ -102,7 +102,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun showDataStoredInDataStore(userModel: UserModel) {
         AlertDialog.Builder(this)
-            .setTitle(getString(R.string.fail_login))
+            .setTitle(getString(R.string.done_message))
             .setMessage(getString(R.string.done_login))
             .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
                 dialog.dismiss()

@@ -140,7 +140,7 @@
         android:background="@drawable/custom_button"
         android:fontFamily="@font/montserrat_medium"
         android:backgroundTint="@color/button"
-        android:text="Login"
+        android:text="@string/href_login"
         android:textSize="20sp"
         android:textAllCaps="false"
         android:textColor="@color/text_button"
