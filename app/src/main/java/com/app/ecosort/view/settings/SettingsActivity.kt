@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.TypefaceSpan
@@ -51,7 +52,7 @@ class SettingsActivity : AppCompatActivity() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         updateTheme()
         setContentView(binding.root)
-//        overridePendingTransition(0, 0)
+        overridePendingTransition(0, 0)
 
         userPreference = UserPreference.getInstance(dataStore)
 
@@ -91,12 +92,19 @@ class SettingsActivity : AppCompatActivity() {
             toolbar.setTitleTextColor(Color.WHITE)
         }
 
+        binding.logout.setOnClickListener() {
+            showLogoutConfirmationDialog()
+        }
+
+        setupView()
+        setupLanguage()
+
         binding.bottomNavView.selectedItemId = R.id.settings
 
         binding.bottomNavView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.home -> {
-                    startActivity(Intent(this,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
+                    startActivity(Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
                     true
                 }
                 R.id.news -> {
@@ -119,12 +127,12 @@ class SettingsActivity : AppCompatActivity() {
             val i = Intent(this@SettingsActivity, CameraActivity::class.java)
             startActivity(i)
         }
+    }
 
-        binding.logout.setOnClickListener() {
-            showLogoutConfirmationDialog()
+    private fun setupLanguage() {
+        binding.language.setOnClickListener {
+            startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
         }
-
-        setupView()
     }
 
     override fun onPause() {
