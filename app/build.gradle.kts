@@ -73,12 +73,13 @@ dependencies {
     implementation("com.airbnb.android:lottie:3.7.2")
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation("androidx.datastore:datastore-preferences-core:1.0.0")
+    implementation ("androidx.vectordrawable:vectordrawable:1.1.0")
 
-
-
+    implementation ("com.tbuonomo:morph-bottom-navigation:1.0.1")
+    implementation ("com.github.bumptech.glide:glide:4.14.2")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.14.2")
 
     implementation("androidx.activity:activity-ktx:1.7.2")
-
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel:2.3.1")

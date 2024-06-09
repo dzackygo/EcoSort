@@ -15,41 +15,38 @@
         android:theme="@style/Theme.EcoSort"
         tools:targetApi="31">
         <activity
+            android:name=".view.description.DescriptionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.result.ResultActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.history.HistoryActivity"
-
             android:exported="false" />
         <activity
             android:name=".view.home.MainActivity"
-
             android:exported="false" />
         <activity
             android:name=".view.news.NewsActivity"
-
             android:exported="false" />
         <activity
             android:name=".view.settings.SettingsActivity"
-            android:launchMode="singleTask"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTask" />
         <activity
             android:name=".view.camera.CameraActivity"
-
             android:exported="false" />
         <activity
             android:name=".view.welcome.WelcomeActivity"
-
             android:exported="false" />
         <activity
             android:name=".view.register.RegisterActivity"
-
             android:exported="false" />
         <activity
             android:name=".view.login.LoginActivity"
-
             android:exported="false" />
-
         <activity
             android:name=".view.splash.SplashActivity"
-
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,6 +1,9 @@
 package com.app.ecosort.view.camera
 
+import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
@@ -8,9 +11,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.TypefaceSpan
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -41,11 +42,17 @@ class CameraActivity : AppCompatActivity() {
             insets
         }
 
-
         val toolbar = binding.toolbar
         val typeface: Typeface? = ResourcesCompat.getFont(this, R.font.montserrat_semibold)
         if (typeface != null) {
             val spannableTitle = SpannableString(toolbar.title)
+            val colorWhite = ContextCompat.getColor(this, android.R.color.white)
+            val colorStateList = ColorStateList.valueOf(colorWhite)
+            val colorFilter = PorterDuffColorFilter(colorWhite, PorterDuff.Mode.SRC_IN)
+            binding.toolbar.setNavigationContentDescription("Back")
+            val defaultBackIcon = binding.toolbar.navigationIcon
+            defaultBackIcon?.setColorFilter(colorFilter)
+            binding.toolbar.navigationIcon = defaultBackIcon
             spannableTitle.setSpan(
                 TypefaceSpan(typeface),
                 0,
@@ -56,8 +63,14 @@ class CameraActivity : AppCompatActivity() {
             toolbar.setTitleTextColor(Color.WHITE)
         }
 
+        binding.toolbar.setTitleTextColor(Color.WHITE)
+        binding.toolbar.setNavigationOnClickListener {
+            onBackPressed()
+        }
+
         setupView()
     }
+
 
     private fun updateTheme() {
         val pref = PrefHelper(this)
@@ -88,11 +101,6 @@ class CameraActivity : AppCompatActivity() {
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
-        if (backPressedTime + 2000 > System.currentTimeMillis()) {
-            finishAffinity()
-        } else {
-            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show()
-        }
-        backPressedTime = System.currentTimeMillis()
+       super.onBackPressed()
     }
 }

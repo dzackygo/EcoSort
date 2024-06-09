@@ -15,7 +15,7 @@
         android:layout_marginTop="112dp"
         android:backgroundTint="@color/title"
         android:fontFamily="@font/montserrat_bold"
-        android:text="Let\'s Sign you in"
+        android:text="@string/title_register_page"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/descriptionTextView"
@@ -31,7 +31,7 @@
         android:fontFamily="@font/montserrat_medium"
         android:backgroundTint="@color/subtitle"
         android:alpha="0"
-        android:text="Happy to join us, Please Register First"
+        android:text="@string/description_register_page"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -161,15 +161,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Already have an account ? "
-            android:fontFamily="@font/montserrat_regular"/>
+            android:fontFamily="@font/montserrat_regular"
+            android:text="@string/text_register" />
 
         <TextView
             android:id="@+id/hrefSignIn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Login"
+            android:layout_marginStart="8dp"
             android:fontFamily="@font/montserrat_bold"
+            android:text="@string/href_login"
             android:textColor="@color/button"
             android:textStyle="bold" />
 

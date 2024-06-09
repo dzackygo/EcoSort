@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import com.app.ecosort.ViewModelFactory
 import com.app.ecosort.data.RegistrationFailedException
+import com.app.ecosort.data.pref.UserPreference
 import com.app.ecosort.databinding.ActivityRegisterBinding
 import com.app.ecosort.helper.PrefHelper
 import com.app.ecosort.view.home.MainActivity
@@ -30,6 +31,7 @@ class RegisterActivity : AppCompatActivity() {
     private val  pref by lazy { PrefHelper(this) }
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var registerViewModel: RegisterViewModel
+    private lateinit var userPreference: UserPreference
     private var backPressedTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {

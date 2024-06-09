@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.airbnb.lottie.LottieAnimationView
 import com.app.ecosort.ViewModelFactory
 import com.app.ecosort.api.ApiConfig
 import com.app.ecosort.data.pref.UserModel
@@ -40,6 +41,7 @@ class LoginActivity : AppCompatActivity() {
         setupAction()
         playAnimation()
         setupAction2()
+
     }
 
     private fun setupView() {
@@ -63,7 +65,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun performLogin() {
-        binding.progressBar.visibility = View.VISIBLE
+        binding.loading.visibility = View.VISIBLE
 
         val email = binding.emailEditText.text.toString()
         val password = binding.passwordEditText.text.toString()
@@ -82,7 +84,7 @@ class LoginActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 showErrorMessage(e.message ?: "Account failed to login")
             } finally {
-                binding.progressBar.visibility = View.GONE
+                binding.loading.visibility = View.GONE
             }
         }
     }

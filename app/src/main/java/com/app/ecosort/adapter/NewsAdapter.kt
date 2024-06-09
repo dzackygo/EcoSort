@@ -32,7 +32,7 @@ class NewsAdapter : ListAdapter<NewsItem, NewsAdapter.ViewHolder>(DiffCallback()
         fun bind(newsItem: NewsItem) {
             tvTitle.text = newsItem.title
             itemView.findViewById<TextView>(R.id.tvReadMore).apply {
-                text = "Read more"
+                text = itemView.context.getString(R.string.read_more)
                 setTag(R.id.tvReadMore, newsItem.url)
                 visibility = if (newsItem.url != null) View.VISIBLE else View.GONE
             }
