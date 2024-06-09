@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.LottieAnimationView
+import com.app.ecosort.R
 import com.app.ecosort.ViewModelFactory
 import com.app.ecosort.api.ApiConfig
 import com.app.ecosort.data.pref.UserModel
@@ -82,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
                 }
 
             } catch (e: Exception) {
-                showErrorMessage(e.message ?: "Account failed to login")
+                showErrorMessage(e.message ?: getString(R.string.fail_login))
             } finally {
                 binding.loading.visibility = View.GONE
             }
@@ -91,9 +92,9 @@ class LoginActivity : AppCompatActivity() {
 
     private fun showErrorMessage(message: String) {
         AlertDialog.Builder(this).apply {
-            setTitle("Login Failed")
-            setMessage("Please complete all data correctly")
-            setPositiveButton("OK", null)
+            setTitle(getString(R.string.fail_login))
+            setMessage(getString(R.string.error_message))
+            setPositiveButton(getString(R.string.ok), null)
             create()
             show()
         }
@@ -101,9 +102,9 @@ class LoginActivity : AppCompatActivity() {
 
     private fun showDataStoredInDataStore(userModel: UserModel) {
         AlertDialog.Builder(this)
-            .setTitle("Login Successful")
-            .setMessage("Tap \"Ok\" to continue to the next page")
-            .setPositiveButton("Ok") { dialog, _ ->
+            .setTitle(getString(R.string.fail_login))
+            .setMessage(getString(R.string.done_login))
+            .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
                 dialog.dismiss()
                 lifecycleScope.launch {
                     loginViewModel.saveSession(userModel)
@@ -146,7 +147,7 @@ class LoginActivity : AppCompatActivity() {
         if (backPressedTime + 2000 > System.currentTimeMillis()) {
             finishAffinity()
         } else {
-            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,  getString(R.string.back), Toast.LENGTH_SHORT).show()
         }
         backPressedTime = System.currentTimeMillis()
     }

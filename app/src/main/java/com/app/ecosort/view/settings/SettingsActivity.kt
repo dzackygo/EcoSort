@@ -186,16 +186,16 @@ class SettingsActivity : AppCompatActivity() {
         if (backPressedTime + 2000 > System.currentTimeMillis()) {
             finishAffinity()
         } else {
-            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,getString(R.string.back), Toast.LENGTH_SHORT).show()
         }
         backPressedTime = System.currentTimeMillis()
     }
 
     private fun showLogoutConfirmationDialog() {
         AlertDialog.Builder(this)
-            .setTitle("Confirmation of Logout")
-            .setMessage("Are you sure you want to log out?")
-            .setPositiveButton("Yes") { _, _ ->
+            .setTitle(getString(R.string.confirm))
+            .setMessage(R.string.message)
+            .setPositiveButton(R.string.yes) { _, _ ->
                 CoroutineScope(Dispatchers.IO).launch {
                     userPreference.logout()
                     userPreference.getSession().first()
@@ -204,7 +204,7 @@ class SettingsActivity : AppCompatActivity() {
                     finish()
                 }
             }
-            .setNegativeButton("No", null)
+            .setNegativeButton(R.string.no, null)
             .show()
     }
 }

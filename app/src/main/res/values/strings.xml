@@ -68,5 +68,19 @@
     <string name="riwayat">History</string>
     <string name="pengaturan">Settings</string>
 
+    <string name="back">Press back again to exit</string>
+    <string name="confirm">Confirmation of Logout</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="message">Are you sure you want to log out?</string>
+
+    <string name="fail_login">Account failed to login</string>
+    <string name="fail_register">Account failed to register</string>
+    <string name="done_login">Press OK to proceed to the next page</string>
+    <string name="done_register">Account has been successfully registered, Please login.</string>
+    <string name="done_message">Success</string>
+    <string name="error_message">Please complete all data correctly</string>
+    <string name="ok">Ok</string>
+    <string name="goToLogin">Go to Login Page</string>
 
 </resources>

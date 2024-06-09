@@ -67,4 +67,19 @@
     <string name="berita">Berita</string>
     <string name="riwayat">Riwayat</string>
     <string name="pengaturan">Pengaturan</string>
+
+    <string name="back">Tekan kembali untuk keluar</string>
+    <string name="confirm">Konfirmasi Keluar dari Akun</string>
+    <string name="yes">Ya</string>
+    <string name="no">Tidak</string>
+    <string name="message">Apakah Anda yakin ingin keluar?</string>
+
+    <string name="fail_login">Akun gagal masuk</string>
+    <string name="fail_register">Akun gagal didaftarkan</string>
+    <string name="done_login">Tekan OK untuk lanjut ke halaman berikutnya</string>
+    <string name="done_register">Akun telah berhasil didaftarkan, Silakan login.</string>
+    <string name="error_message">Harap lengkapi semua data dengan benar</string>
+    <string name="ok">Ok</string>
+    <string name="done_message">Berhasil</string>
+    <string name="goToLogin">Masuk ke Halaman Login</string>
 </resources>
