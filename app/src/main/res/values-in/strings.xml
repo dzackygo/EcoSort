@@ -61,4 +61,10 @@
     <string name="perabotan">Perabotan</string>
     <string name="kabel">Kabel</string>
     <string name="lampu">Lampu</string>
+
+    <!--  Bottom Navigation Menu  -->
+    <string name="beranda">Beranda</string>
+    <string name="berita">Berita</string>
+    <string name="riwayat">Riwayat</string>
+    <string name="pengaturan">Pengaturan</string>
 </resources>

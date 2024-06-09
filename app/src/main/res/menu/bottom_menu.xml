@@ -4,11 +4,11 @@
 
     <item android:id="@+id/home"
         android:icon="@drawable/ic_home"
-        android:title="Home" />
+        android:title="@string/beranda" />
 
     <item android:id="@+id/news"
         android:icon="@drawable/ic_news"
-        android:title="News" />
+        android:title="@string/berita" />
 
     <item android:id="@+id/fab"
         android:enabled="false"
@@ -16,9 +16,9 @@
 
     <item android:id="@+id/history"
         android:icon="@drawable/ic_history"
-        android:title="History" />
+        android:title="@string/riwayat" />
 
     <item android:id="@+id/settings"
         android:icon="@drawable/ic_settings"
-        android:title="Settings" />
+        android:title="@string/pengaturan" />
 </menu>

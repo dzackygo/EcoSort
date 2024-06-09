@@ -62,5 +62,11 @@
     <string name="kabel">Cable</string>
     <string name="lampu">Lamp</string>
 
+    <!--  Bottom Navigation Menu  -->
+    <string name="beranda">Home</string>
+    <string name="berita">News</string>
+    <string name="riwayat">History</string>
+    <string name="pengaturan">Settings</string>
+
 
 </resources>
