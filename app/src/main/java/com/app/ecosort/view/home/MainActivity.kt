@@ -23,9 +23,11 @@ import com.app.ecosort.ViewModelFactory
 import com.app.ecosort.databinding.ActivityMainBinding
 import com.app.ecosort.helper.PrefHelper
 import com.app.ecosort.view.camera.CameraActivity
+import com.app.ecosort.view.description.DescriptionActivity
 import com.app.ecosort.view.history.HistoryActivity
 import com.app.ecosort.view.news.NewsActivity
 import com.app.ecosort.view.settings.SettingsActivity
+
 
 @Suppress("DEPRECATION")
 class MainActivity() : AppCompatActivity() {
@@ -51,6 +53,25 @@ class MainActivity() : AppCompatActivity() {
         }
 
         mainViewModel = ViewModelProvider(this, ViewModelFactory.getInstance(this))[MainViewModel::class.java]
+
+        val toolbar = binding.toolbar
+        val typeface: Typeface? = ResourcesCompat.getFont(this, R.font.montserrat_semibold)
+
+        if (typeface != null) {
+            val spannableTitle = SpannableString(toolbar.title)
+            spannableTitle.setSpan(
+                TypefaceSpan(typeface),
+                0,
+                spannableTitle.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            toolbar.title = spannableTitle
+            toolbar.setTitleTextColor(Color.WHITE)
+        }
+        setupView()
+        navigateToCamera()
+        navigateToDescription()
+
         binding.bottomNavView.selectedItemId = R.id.home
 
         binding.bottomNavView.setOnNavigationItemSelectedListener { item ->
@@ -79,25 +100,20 @@ class MainActivity() : AppCompatActivity() {
             val i = Intent(this@MainActivity, CameraActivity::class.java)
             startActivity(i)
         }
+    }
 
-        val toolbar = binding.toolbar
-        val typeface: Typeface? = ResourcesCompat.getFont(this, R.font.montserrat_semibold)
-
-        if (typeface != null) {
-            val spannableTitle = SpannableString(toolbar.title)
-            spannableTitle.setSpan(
-                TypefaceSpan(typeface),
-                0,
-                spannableTitle.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            toolbar.title = spannableTitle
-            toolbar.setTitleTextColor(Color.WHITE)
+    private fun navigateToDescription() {
+        binding.btnNextToDescription.setOnClickListener() {
+            val i = Intent(this@MainActivity, DescriptionActivity::class.java)
+            startActivity(i)
         }
+    }
 
-
-        setupView()
-
+    private fun navigateToCamera() {
+        binding.btnNextToCamera.setOnClickListener() {
+            val i = Intent(this@MainActivity, CameraActivity::class.java)
+            startActivity(i)
+        }
     }
 
     private fun updateTheme() {
