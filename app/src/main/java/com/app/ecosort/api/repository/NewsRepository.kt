@@ -1,5 +1,9 @@
-package com.app.ecosort.api
+package com.app.ecosort.api.repository
 
+import com.app.ecosort.api.ApiClient
+import com.app.ecosort.api.ApiConfig
+import com.app.ecosort.api.NewsItem
+import com.app.ecosort.response.NewsResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

@@ -5,8 +5,17 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    tools:context=".view.history.HistoryActivity">
+    android:backgroundTint="@color/background"
+    tools:context=".view.gallery.GalleryActivity">
+
+<!--    <com.google.android.material.progressindicator.LinearProgressIndicator-->
+<!--        android:id="@+id/progressIndicator"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:indeterminate="true"-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -24,32 +33,44 @@
             android:layout_height="60dp"
             android:background="@color/action_bar"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:title="@string/history_saved"
+            app:title="Gallery"
             app:titleMargin="4dp"
             app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"
             app:titleTextColor="@color/buttonNavBar" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_history"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/previewImageView"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginVertical="12dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_margin="8dp"
+        app:layout_constraintBottom_toTopOf="@id/analyzeButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+        app:srcCompat="@drawable/ic_place_holder"
+        app:tint="@color/button" />
+
+    <Button
+        android:id="@+id/analyzeButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/button"
+        android:text="@string/analyze"
         app:layout_constraintBottom_toTopOf="@id/bottomNavView"
-        tools:listitem="@layout/item_history"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:labelVisibilityMode="selected"
+        app:labelVisibilityMode="unlabeled"
         android:background="@color/buttonNavBar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -2,35 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    tools:context=".view.camera.CameraActivity">
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:outlineProvider="none"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            style="@style/Base.Theme.EcoSort"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@color/action_bar"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:navigationIcon="?attr/homeAsUpIndicator"
-            app:title="@string/camera"
-            app:titleMargin="4dp"
-            app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"
-            app:titleTextColor="@color/buttonNavBar" />
-
-    </com.google.android.material.appbar.AppBarLayout>
+    tools:context=".view.upload.CameraActivity">
 
     <androidx.camera.view.PreviewView
         android:id="@+id/viewFinder"
@@ -39,7 +13,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appBarLayout" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/btn_close"
@@ -51,7 +25,7 @@
         android:padding="16dp"
         android:src="@drawable/button_close"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appBarLayout" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/captureImage"
@@ -68,19 +42,18 @@
 
     <ImageView
         android:id="@+id/switchCamera"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
         android:background="@drawable/button_bg_transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/captureImage"
-        app:layout_constraintBottom_toBottomOf="@id/captureImage"
         app:srcCompat="@drawable/ic_switch_camera" />
 
     <ImageButton
         android:id="@+id/galleryButton"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
         android:layout_marginStart="24dp"
         android:background="@drawable/button_bg_transparent"
@@ -89,7 +62,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/captureImage"
         app:layout_constraintVertical_bias="0.437" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

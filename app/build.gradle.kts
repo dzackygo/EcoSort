@@ -48,6 +48,9 @@ android {
 
 dependencies {
 
+    val cameraxVersion = "1.2.3"
+
+
     implementation("com.airbnb.android:lottie:3.6.1")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -75,7 +78,10 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences-core:1.0.0")
     implementation ("androidx.vectordrawable:vectordrawable:1.1.0")
 
-    implementation ("com.tbuonomo:morph-bottom-navigation:1.0.1")
+    implementation("androidx.camera:camera-camera2:$cameraxVersion")
+    implementation("androidx.camera:camera-lifecycle:$cameraxVersion")
+    implementation("androidx.camera:camera-view:$cameraxVersion")
+     implementation ("com.tbuonomo:morph-bottom-navigation:1.0.1")
     implementation ("com.github.bumptech.glide:glide:4.14.2")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.14.2")
 
