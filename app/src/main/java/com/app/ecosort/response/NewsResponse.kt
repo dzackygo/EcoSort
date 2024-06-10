@@ -1,4 +1,4 @@
-package com.app.ecosort.api
+package com.app.ecosort.response
 
 import com.google.gson.annotations.SerializedName
 

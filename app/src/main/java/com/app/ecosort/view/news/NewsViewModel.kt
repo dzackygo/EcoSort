@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.app.ecosort.api.NewsItem
-import com.app.ecosort.api.NewsRepository
+import com.app.ecosort.api.repository.NewsRepository
 
 class NewsViewModel : ViewModel() {
     private val newsRepository = NewsRepository()
