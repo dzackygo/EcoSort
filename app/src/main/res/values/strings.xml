@@ -84,4 +84,10 @@
     <string name="goToLogin">Go to Login Page</string>
     <string name="or">Or</string>
 
+    <string name="slide_1"> Let\'s Create a Clean and Healthy Environment. Waste Sorting, Starting From Your Fingertips!</string>
+    <string name="slide_2"> Let\'s Unite to Sort Waste, Create a Bright Future! </string>
+    <string name="slide_3">Small Steps, Big Impact. Separate Waste, Take Care of Our Earth!</string>
+    <string name="slide_4">Sort Waste, Best Investment for a Sustainable Future!</string>
+    <string name="slide_5">With Waste Sorting, We Realize the Dream of a Waste-Free Earth!</string>
+
 </resources>

@@ -83,4 +83,11 @@
     <string name="done_message">Berhasil</string>
     <string name="goToLogin">Masuk ke Halaman Login</string>
     <string name="or">Atau</string>
+
+    <string name="slide_1">Ayo Wujudkan Lingkungan Bersih dan Sehat. Pilah Sampah, Mulai Dari Ujung Jari Anda!</string>
+    <string name="slide_2">Mari Bersatu Pilah Sampah, Ciptakan Masa Depan yang Cerah!</string>
+    <string name="slide_3">Langkah Kecil, Dampak Besar. Pilah Sampah, Jaga Bumi Kita!</string>
+    <string name="slide_4">Pilah Sampah, Investasi Terbaik untuk Masa Depan yang Berkelanjutan!</string>
+    <string name="slide_5">Bersama Pilah Sampah, Kita Wujudkan Mimpi Bumi yang Bebas Sampah!</string>
+
 </resources>
