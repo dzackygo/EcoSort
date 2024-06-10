@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">EcoSort</string>
+    <string name="gallery">Galeri</string>
+    <string name="analyze">Analisis</string>
+    <string name="result">Hasil</string>
     <string name="title_theme">Tema</string>
     <string name="theme">Mode Gelap</string>
     <string name="title_login">Masuk</string>
