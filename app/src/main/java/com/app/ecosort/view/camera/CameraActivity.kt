@@ -1,9 +1,13 @@
 package com.app.ecosort.view.camera
 
+
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.Typeface
 import android.net.Uri
 import android.os.Build
@@ -16,7 +20,6 @@ import android.view.OrientationEventListener
 import android.view.Surface
 import android.view.WindowInsets
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -91,14 +94,18 @@ class CameraActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-
-
-
+        
         val toolbar = binding.toolbar
         val typeface: Typeface? = ResourcesCompat.getFont(this, R.font.montserrat_semibold)
         if (typeface != null) {
             val spannableTitle = SpannableString(toolbar.title)
+            val colorWhite = ContextCompat.getColor(this, android.R.color.white)
+            val colorStateList = ColorStateList.valueOf(colorWhite)
+            val colorFilter = PorterDuffColorFilter(colorWhite, PorterDuff.Mode.SRC_IN)
+            binding.toolbar.setNavigationContentDescription("Back")
+            val defaultBackIcon = binding.toolbar.navigationIcon
+            defaultBackIcon?.setColorFilter(colorFilter)
+            binding.toolbar.navigationIcon = defaultBackIcon
             spannableTitle.setSpan(
                 TypefaceSpan(typeface),
                 0,
@@ -107,6 +114,11 @@ class CameraActivity : AppCompatActivity() {
             )
             toolbar.title = spannableTitle
             toolbar.setTitleTextColor(Color.WHITE)
+        }
+
+        binding.toolbar.setTitleTextColor(Color.WHITE)
+        binding.toolbar.setNavigationOnClickListener {
+            onBackPressed()
         }
 
         setupView()
@@ -247,6 +259,7 @@ class CameraActivity : AppCompatActivity() {
             Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show()
         }
         backPressedTime = System.currentTimeMillis()
+       super.onBackPressed()
     }
 
     private val orientationEventListener by lazy {

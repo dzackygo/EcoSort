@@ -8,6 +8,19 @@
     android:background="@color/background"
     tools:context=".view.login.LoginActivity">
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loading"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordEditTextLayout"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="loading.json"
+        app:lottie_loop="true" />
+
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="0dp"
@@ -18,7 +31,7 @@
         android:layout_marginTop="116dp"
         android:fontFamily="@font/montserrat_bold"
         android:alpha="0"
-        android:text="Welcome to Ecosort"
+        android:text="@string/title_login_page"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,7 +50,7 @@
         android:backgroundTint="@color/subtitle"
         android:layout_marginTop="12dp"
         android:alpha="0"
-        android:text="Save the world by sorting waste starting from your fingertips"
+        android:text="@string/description_login_page"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -126,7 +139,8 @@
         android:layout_marginBottom="20dp"
         android:background="@drawable/custom_button"
         android:fontFamily="@font/montserrat_medium"
-        android:text="Login"
+        android:backgroundTint="@color/button"
+        android:text="@string/href_login"
         android:textSize="20sp"
         android:textAllCaps="false"
         android:textColor="@color/text_button"
@@ -138,6 +152,7 @@
 
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="12dp"
@@ -151,28 +166,22 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Don't have an account? "
-            android:fontFamily="@font/montserrat_regular"/>
+            android:fontFamily="@font/montserrat_regular"
+            android:text="@string/text_login" />
 
         <TextView
             android:id="@+id/hrefSignUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_bold"
-            android:text="Register"
+            android:text="@string/href_register"
+            android:layout_marginStart="8dp"
             android:textColor="@color/button"
             android:textStyle="bold" />
 
     </LinearLayout>
 
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/progressBar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

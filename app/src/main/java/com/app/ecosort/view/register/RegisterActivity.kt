@@ -14,8 +14,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
+import com.app.ecosort.R
 import com.app.ecosort.ViewModelFactory
 import com.app.ecosort.data.RegistrationFailedException
+import com.app.ecosort.data.pref.UserPreference
 import com.app.ecosort.databinding.ActivityRegisterBinding
 import com.app.ecosort.helper.PrefHelper
 import com.app.ecosort.view.home.MainActivity
@@ -30,6 +32,7 @@ class RegisterActivity : AppCompatActivity() {
     private val  pref by lazy { PrefHelper(this) }
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var registerViewModel: RegisterViewModel
+    private lateinit var userPreference: UserPreference
     private var backPressedTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,16 +92,16 @@ class RegisterActivity : AppCompatActivity() {
                     try {
                         registerViewModel.register(name, email, password)
                         runOnUiThread {
-                            showSuccessMessage("Account has been successfully registered, please login.")
+                            showSuccessMessage(getString(R.string.done_register))
                         }
                     } catch (e: RegistrationFailedException) {
                         runOnUiThread {
-                            showErrorMessage(e.message ?: "Account failed to register")
+                            showErrorMessage(e.message ?: getString(R.string.fail_register))
                         }
                     }
                 }
             } else {
-                showErrorMessage("Please complete all data correctly")
+                showErrorMessage(getString(R.string.error_message))
             }
         }
     }
@@ -134,9 +137,9 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun showErrorMessage(message: String) {
         AlertDialog.Builder(this).apply {
-            setTitle("Register Failed")
-            setMessage("Please complete all data correctly")
-            setPositiveButton("OK", null)
+            setTitle(getString(R.string.fail_register))
+            setMessage(getString(R.string.error_message))
+            setPositiveButton(getString(R.string.ok), null)
             create()
             show()
         }
@@ -144,9 +147,9 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun showSuccessMessage(message: String) {
         AlertDialog.Builder(this).apply {
-            setTitle("Success")
+            setTitle(getString(R.string.done_message))
             setMessage(message)
-            setPositiveButton("Go to Login Page") { dialog, _ ->
+            setPositiveButton(getString(R.string.goToLogin)) { dialog, _ ->
                 dialog.dismiss()
                 val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
                 startActivity(intent)
@@ -162,7 +165,7 @@ class RegisterActivity : AppCompatActivity() {
         if (backPressedTime + 2000 > System.currentTimeMillis()) {
             finishAffinity()
         } else {
-            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,  getString(R.string.back), Toast.LENGTH_SHORT).show()
         }
         backPressedTime = System.currentTimeMillis()
     }

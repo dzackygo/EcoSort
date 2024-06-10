@@ -1,8 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">EcoSort</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="gallery">Gallery</string>
     <string name="analyze">Analyze</string>
     <string name="result">Result</string>
+    <string name="title_theme">Theme</string>
+    <string name="theme">Dark Mode</string>
+    <string name="title_login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="tittle_rv">Title News</string>
+    <string name="read_more">Read More</string>
+    <string name="title_login_page">Welcome to Ecosort</string>
+    <string name="description_login_page">Save the world by sorting waste starting from your fingertips</string>
+    <string name="title_register_page">Let’s Sign you in</string>
+    <string name="description_register_page">Happy to join us, Please Register First</string>
+    <string name="text_login">Don\'t have an account ?</string>
+    <string name="href_register">Register</string>
+    <string name="text_register">Already have an account ?</string>
+    <string name="href_login">Login</string>
+    <string name="accessibility">Accessibility</string>
+    <string name="language">Language</string>
+    <string name="title_card">Start Sorting Waste Now</string>
+    <string name="penjelasan">Explanation</string>
+    <string name="description_card_sampah">Sort your trash now for a clean environment.</string>
+    <string name="description_card">Learn more about the types of waste and how to sort them.</string>
+    <string name="home">Home</string>
+    <string name="memindai_sampah">Scanning Trash</string>
+    <string name="jenis_sampah">Recognize the Types of Waste</string>
+    <string name="camera">Camera</string>
+    <string name="description">Description</string>
+    <string name="history_saved">History Saved</string>
+    <string name="related_news">Related News</string>
+    <string name="settings">Settings</string>
+    <string name="fruit">Fruit</string>
+    <string name="description_fruit">Organic/Anorganic Waste</string>
+    <string name="intro">Waste can be categorized into two main types, namely organic and anorganic waste.</string>
+    <string name="description_sampah_organik">Organic Waste is Waste that comes from living things and is easily biodegradable. This waste is generally environmentally friendly and can be reprocessed into something useful.</string>
+    <string name="title_sampah_organik">Organic Waste</string>
+    <string name="description_sampah_anorganik">Anorganic waste is waste that comes from non-living materials and is difficult to decompose. This waste is generally not environmentally friendly and takes a long time to decompose; some even do not decompose at all.</string>
+    <string name="title_sampah_anorganik">Anorganic Waste</string>
+    <string name="example">Example :</string>
+
+    <!-- Sampah Organik -->
+    <string name="kulitbuah">Fruit Skin</string>
+    <string name="daunkering">Dry leaf</string>
+    <string name="rantingpohon">Tree Branch</string>
+    <string name="bungalayu">Wilted Flower</string>
+    <string name="cangkangtelur">Eggshell</string>
+    <string name="tulanghewan">Animal Bone</string>
+    <string name="rumputliar">Wild Grass</string>
+    <string name="tisu">Tissue</string>
+    <string name="ampaskopi">Coffee Grounds</string>
+    <string name="ampasteh">Tea Pulp</string>
+
+    <!-- Sampah Anorganik -->
+    <string name="botolplatik">Plastic Bottle</string>
+    <string name="kantongplastik">Plastic bag</string>
+    <string name="kaleng">Tin</string>
+    <string name="pecahankaca">Shattered glass</string>
+    <string name="baterai">Battery</string>
+    <string name="ban">Tire</string>
+    <string name="pakaian">Clothing</string>
+    <string name="perabotan">Furniture</string>
+    <string name="kabel">Cable</string>
+    <string name="lampu">Lamp</string>
+
+    <!--  Bottom Navigation Menu  -->
+    <string name="beranda">Home</string>
+    <string name="berita">News</string>
+    <string name="riwayat">History</string>
+    <string name="pengaturan">Settings</string>
+
+    <string name="back">Press back again to exit</string>
+    <string name="confirm">Confirmation of Logout</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="message">Are you sure you want to log out?</string>
+
+    <string name="fail_login">Account failed to login</string>
+    <string name="fail_register">Account failed to register</string>
+    <string name="done_login">Press OK to proceed to the next page</string>
+    <string name="done_register">Account has been successfully registered, Please login.</string>
+    <string name="done_message">Success</string>
+    <string name="error_message">Please complete all data correctly</string>
+    <string name="ok">Ok</string>
+    <string name="goToLogin">Go to Login Page</string>
+    <string name="or">Or</string>
 </resources>

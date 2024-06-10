@@ -1,10 +1,13 @@
 package com.app.ecosort.view.settings
 
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.TypefaceSpan
@@ -51,7 +54,7 @@ class SettingsActivity : AppCompatActivity() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         updateTheme()
         setContentView(binding.root)
-//        overridePendingTransition(0, 0)
+        overridePendingTransition(0, 0)
 
         userPreference = UserPreference.getInstance(dataStore)
 
@@ -91,12 +94,19 @@ class SettingsActivity : AppCompatActivity() {
             toolbar.setTitleTextColor(Color.WHITE)
         }
 
+        binding.logout.setOnClickListener() {
+            showLogoutConfirmationDialog()
+        }
+
+        setupView()
+        setupLanguage()
+
         binding.bottomNavView.selectedItemId = R.id.settings
 
         binding.bottomNavView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.home -> {
-                    startActivity(Intent(this,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
+                    startActivity(Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
                     true
                 }
                 R.id.news -> {
@@ -119,12 +129,12 @@ class SettingsActivity : AppCompatActivity() {
             val i = Intent(this@SettingsActivity, CameraActivity::class.java)
             startActivity(i)
         }
+    }
 
-        binding.logout.setOnClickListener() {
-            showLogoutConfirmationDialog()
+    private fun setupLanguage() {
+        binding.language.setOnClickListener {
+            startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
         }
-
-        setupView()
     }
 
     override fun onPause() {
@@ -178,16 +188,16 @@ class SettingsActivity : AppCompatActivity() {
         if (backPressedTime + 2000 > System.currentTimeMillis()) {
             finishAffinity()
         } else {
-            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,getString(R.string.back), Toast.LENGTH_SHORT).show()
         }
         backPressedTime = System.currentTimeMillis()
     }
 
     private fun showLogoutConfirmationDialog() {
         AlertDialog.Builder(this)
-            .setTitle("Confirmation of Logout")
-            .setMessage("Are you sure you want to log out?")
-            .setPositiveButton("Yes") { _, _ ->
+            .setTitle(getString(R.string.confirm))
+            .setMessage(R.string.message)
+            .setPositiveButton(R.string.yes) { _, _ ->
                 CoroutineScope(Dispatchers.IO).launch {
                     userPreference.logout()
                     userPreference.getSession().first()
@@ -196,7 +206,7 @@ class SettingsActivity : AppCompatActivity() {
                     finish()
                 }
             }
-            .setNegativeButton("No", null)
+            .setNegativeButton(R.string.no, null)
             .show()
     }
 }

@@ -11,7 +11,6 @@ import android.text.style.TypefaceSpan
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -28,6 +27,7 @@ import com.app.ecosort.view.home.MainActivity
 import com.app.ecosort.view.login.LoginViewModel
 import com.app.ecosort.view.news.NewsActivity
 import com.app.ecosort.view.settings.SettingsActivity
+
 
 class HistoryActivity : AppCompatActivity() {
 
@@ -74,7 +74,7 @@ class HistoryActivity : AppCompatActivity() {
         binding.bottomNavView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.home -> {
-                    startActivity(Intent(this,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
+                    startActivity(Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
                     true
                 }
                 R.id.news -> {
@@ -86,7 +86,7 @@ class HistoryActivity : AppCompatActivity() {
                     true
                 }
                 R.id.settings -> {
-                    startActivity(Intent(this, SettingsActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
+                    startActivity(Intent(this, SettingsActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION ))
                     true
                 }
                 else -> false
@@ -131,7 +131,7 @@ class HistoryActivity : AppCompatActivity() {
         if (backPressedTime + 2000 > System.currentTimeMillis()) {
             finishAffinity()
         } else {
-            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,  getString(R.string.back), Toast.LENGTH_SHORT).show()
         }
         backPressedTime = System.currentTimeMillis()
     }

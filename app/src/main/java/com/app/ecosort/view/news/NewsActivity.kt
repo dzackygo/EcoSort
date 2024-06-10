@@ -13,7 +13,6 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -23,7 +22,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.app.ecosort.R
 import com.app.ecosort.adapter.NewsAdapter
 import com.app.ecosort.databinding.ActivityNewsBinding
@@ -71,12 +69,26 @@ class NewsActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
+        initRecyclerView()
+        setupView()
+
+        newsViewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
+        newsViewModel.fetchHealthNews()
+        newsViewModel.newsList.observe(this, Observer { newsList ->
+            if (newsList.isNotEmpty()) {
+                binding.loading.visibility = View.GONE
+                newsAdapter.submitList(newsList)
+            } else {
+                binding.loading.visibility = View.VISIBLE
+            }
+        })
+
         binding.bottomNavView.selectedItemId = R.id.news
 
         binding.bottomNavView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.home -> {
-                    startActivity(Intent(this,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
+                    startActivity(Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
                     true
                 }
                 R.id.news -> {
@@ -95,19 +107,10 @@ class NewsActivity : AppCompatActivity() {
             }
         }
 
-        setupView()
-
         binding.cameraActivity.setOnClickListener() {
             val i = Intent(this@NewsActivity, CameraActivity::class.java)
             startActivity(i)
         }
-        initRecyclerView()
-
-        newsViewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
-        newsViewModel.fetchHealthNews()
-        newsViewModel.newsList.observe(this, Observer { newsList ->
-            newsAdapter.submitList(newsList)
-        })
     }
 
     private fun updateTheme() {
@@ -164,7 +167,7 @@ class NewsActivity : AppCompatActivity() {
         if (backPressedTime + 2000 > System.currentTimeMillis()) {
             finishAffinity()
         } else {
-            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,  getString(R.string.back), Toast.LENGTH_SHORT).show()
         }
         backPressedTime = System.currentTimeMillis()
     }
