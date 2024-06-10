@@ -25,7 +25,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.ecosort.R
-import com.app.ecosort.view.adapter.NewsAdapter
+import com.app.ecosort.adapter.NewsAdapter
 import com.app.ecosort.databinding.ActivityNewsBinding
 import com.app.ecosort.helper.PrefHelper
 import com.app.ecosort.view.camera.CameraActivity
