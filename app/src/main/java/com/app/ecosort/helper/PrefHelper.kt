@@ -23,4 +23,5 @@ class PrefHelper (context: Context) {
         return sharedPref.getBoolean(key, false)
     }
 
+
 }

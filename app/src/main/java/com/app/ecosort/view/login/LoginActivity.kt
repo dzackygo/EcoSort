@@ -8,46 +8,41 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
-import androidx.activity.enableEdgeToEdge
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import com.airbnb.lottie.LottieAnimationView
 import com.app.ecosort.R
+import com.app.ecosort.ViewModelFactory
+import com.app.ecosort.api.ApiConfig
+import com.app.ecosort.data.pref.UserModel
 import com.app.ecosort.databinding.ActivityLoginBinding
 import com.app.ecosort.helper.PrefHelper
 import com.app.ecosort.view.home.MainActivity
 import com.app.ecosort.view.register.RegisterActivity
+import kotlinx.coroutines.launch
 
+@Suppress("DEPRECATION")
 class LoginActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityLoginBinding
     private val  pref by lazy { PrefHelper(this) }
+    private lateinit var binding: ActivityLoginBinding
+    private lateinit var loginViewModel: LoginViewModel
+    private var backPressedTime: Long = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-
-        when(pref.getBoolean("dark_mode")) {
-            true -> {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            }
-            false -> {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
-        }
+        loginViewModel = ViewModelProvider(this, ViewModelFactory.getInstance(this))[LoginViewModel::class.java]
 
         setupView()
-        setupAction1()
-        setupAction2()
+        setupAction()
         playAnimation()
+        setupAction2()
+
     }
 
     private fun setupView() {
@@ -62,15 +57,66 @@ class LoginActivity : AppCompatActivity() {
         supportActionBar?.hide()
     }
 
-    private fun setupAction1() {
+    private fun setupAction() {
         binding.loginButton.setOnClickListener { performLogin() }
     }
-
     private fun setupAction2() {
-        binding.hrefSignUp.setOnClickListener {startActivity(Intent(this, RegisterActivity::class.java)) }
+        binding.hrefSignUp.setOnClickListener {startActivity(Intent(this, RegisterActivity::class.java))
+        }
+    }
+
+    private fun performLogin() {
+        binding.loading.visibility = View.VISIBLE
+
+        val email = binding.emailEditText.text.toString()
+        val password = binding.passwordEditText.text.toString()
+
+        lifecycleScope.launch {
+            try {
+                loginViewModel.login(email, password)
+                val userModelFlow = loginViewModel.getSession()
+
+                userModelFlow.collect { userModel ->
+                    loginViewModel.saveSession(userModel)
+                    ApiConfig.setAuthToken(userModel.token)
+                    showDataStoredInDataStore(userModel)
+                }
+
+            } catch (e: Exception) {
+                showErrorMessage(e.message ?: getString(R.string.fail_login))
+            } finally {
+                binding.loading.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun showErrorMessage(message: String) {
+        AlertDialog.Builder(this).apply {
+            setTitle(getString(R.string.fail_login))
+            setMessage(getString(R.string.error_message))
+            setPositiveButton(getString(R.string.ok), null)
+            create()
+            show()
+        }
+    }
+
+    private fun showDataStoredInDataStore(userModel: UserModel) {
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.done_message))
+            .setMessage(getString(R.string.done_login))
+            .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
+                dialog.dismiss()
+                lifecycleScope.launch {
+                    loginViewModel.saveSession(userModel)
+                }
+                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                finish()
+            }
+            .show()
     }
 
     private fun playAnimation() {
+
         val title = ObjectAnimator.ofFloat(binding.titleTextView, View.ALPHA, 1f).setDuration(100)
         val message = ObjectAnimator.ofFloat(binding.messageTextView, View.ALPHA, 1f).setDuration(100)
         val emailTextView = ObjectAnimator.ofFloat(binding.emailTextView, View.ALPHA, 1f).setDuration(100)
@@ -94,22 +140,15 @@ class LoginActivity : AppCompatActivity() {
             startDelay = 100
         }.start()
     }
-
-    private fun performLogin() {
-        binding.progressBar.visibility = View.VISIBLE
-
-        val email = binding.emailEditText.text.toString()
-        val password = binding.passwordEditText.text.toString()
-
-        val moveIntent = Intent(this@LoginActivity, MainActivity::class.java)
-        startActivity(moveIntent)
-    }
-
     @Deprecated("Deprecated in Java",
         ReplaceWith("super.onBackPressed()", "androidx.appcompat.app.AppCompatActivity")
     )
     override fun onBackPressed() {
-        super.onBackPressed()
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            finishAffinity()
+        } else {
+            Toast.makeText(this,  getString(R.string.back), Toast.LENGTH_SHORT).show()
+        }
+        backPressedTime = System.currentTimeMillis()
     }
-
 }

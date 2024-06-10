@@ -8,8 +8,8 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
@@ -17,19 +17,26 @@ import androidx.core.view.WindowInsetsCompat
 import com.app.ecosort.R
 import com.app.ecosort.databinding.ActivityWelcomeBinding
 import com.app.ecosort.helper.PrefHelper
+import com.app.ecosort.view.home.MainViewModel
 import com.app.ecosort.view.login.LoginActivity
 import com.app.ecosort.view.register.RegisterActivity
 
+
 class WelcomeActivity : AppCompatActivity() {
+    private lateinit var mainViewModel: MainViewModel
 
     private val  pref by lazy { PrefHelper(this) }
     private lateinit var binding: ActivityWelcomeBinding
+    private var backPressedTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityWelcomeBinding.inflate(layoutInflater)
+        updateTheme()
         setContentView(binding.root)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -38,16 +45,8 @@ class WelcomeActivity : AppCompatActivity() {
             insets
         }
 
-        supportActionBar?.hide()
 
-        when(pref.getBoolean("dark_mode")) {
-            true -> {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            }
-            false -> {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
-        }
+        supportActionBar?.hide()
 
         binding.loginButton.setOnClickListener() {
             val moveIntentLogin = Intent(this@WelcomeActivity, LoginActivity::class.java)
@@ -61,6 +60,15 @@ class WelcomeActivity : AppCompatActivity() {
 
         setupView()
         playAnimation()
+    }
+
+    private fun updateTheme() {
+        val pref = PrefHelper(this)
+        val isDarkModeEnabled = pref.getBoolean("dark_mode")
+        AppCompatDelegate.setDefaultNightMode(
+            if (isDarkModeEnabled) AppCompatDelegate.MODE_NIGHT_YES
+            else AppCompatDelegate.MODE_NIGHT_NO
+        )
     }
 
     private fun playAnimation() {
@@ -95,19 +103,16 @@ class WelcomeActivity : AppCompatActivity() {
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
-        showExitConfirmationDialog()
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            finishAffinity()
+        } else {
+            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show()
+        }
+        backPressedTime = System.currentTimeMillis()
     }
 
-    private fun showExitConfirmationDialog() {
-        AlertDialog.Builder(this)
-            .setTitle("Confirmation of Exit")
-            .setMessage("Are you sure you want to exit the app?")
-            .setPositiveButton("Yes") { _, _ ->
-                super.onBackPressed()
-            }
-            .setNegativeButton("No") { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        updateTheme()
     }
 }

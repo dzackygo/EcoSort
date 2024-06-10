@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="background">#1B1E24</color>
-    <color name="button">#7EB712</color>
-    <color name="action_bar">#7EB712</color>
+    <color name="background">#191826</color>
+    <color name="button">#00FF0D</color>
+    <color name="action_bar">#00FF0D</color>
     <color name="text_button">#FFFFFF</color>
     <color name="title">#FFFFFF</color>
     <color name="subtitle">#989A9C</color>
-    <color name="button_camera">#7EB712</color>
-    <color name="text_light">#2F2E41</color>
+    <color name="button_camera">#00FF0D</color>
+    <color name="card">#1E1D2B</color>
+    <color name="text_light">#00FF0D</color>
     <color name="buttonNavBar">#191922</color>
     <color name="unselected">#D2D2D2</color>
 </resources>

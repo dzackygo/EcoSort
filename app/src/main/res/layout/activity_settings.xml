@@ -24,7 +24,7 @@
             android:layout_height="60dp"
             android:background="@color/action_bar"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:title="Settings"
+            app:title="@string/settings"
             app:titleMargin="4dp"
             app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"
             app:titleTextColor="@color/buttonNavBar" />
@@ -35,28 +35,96 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:fontFamily="@font/montserrat_semibold"
-        android:text="Dark Mode"
-        android:textSize="16sp"
+        android:textColor="@color/title"
+        android:fontFamily="@font/montserrat_bold"
+        android:textSize="18sp"
+        android:text="@string/title_theme"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
+    <TextView
+        android:id="@+id/dark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:textColor="@color/subtitle"
+        android:text="@string/theme"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
     <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switch_theme"
+        android:id="@+id/switchTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/dark"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+        app:layout_constraintTop_toTopOf="@+id/dark" />
+
+    <TextView
+        android:id="@+id/accessibility"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:textColor="@color/title"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="@string/accessibility"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/language"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:textColor="@color/subtitle"
+        android:text="@string/language"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/accessibility" />
+
+    <TextView
+        android:id="@+id/login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="@string/title_login"
+        android:textSize="18sp"
+        android:textColor="@color/title"
+        app:layout_constraintEnd_toEndOf="@+id/accessibility"
+        app:layout_constraintHorizontal_bias="0.031"
+        app:layout_constraintStart_toStartOf="@+id/accessibility"
+        app:layout_constraintTop_toTopOf="@+id/accessibility" />
+
+    <TextView
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/logout"
+        android:textSize="16sp"
+        android:textColor="@color/subtitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login" />
+
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:labelVisibilityMode="unlabeled"
+        app:labelVisibilityMode="selected"
         android:background="@color/buttonNavBar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

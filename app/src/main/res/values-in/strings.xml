@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">EcoSort</string>
+    <string name="title_theme">Tema</string>
+    <string name="theme">Mode Gelap</string>
+    <string name="title_login">Masuk</string>
+    <string name="logout">Keluar</string>
+    <string name="tittle_rv">Judul Berita</string>
+    <string name="read_more">Baca Selengkapnya</string>
+    <string name="title_login_page">Selamat Datang di Ecosort</string>
+    <string name="description_login_page">Selamatkan dunia dengan memilah sampah mulai dari ujung jari Anda</string>
+    <string name="title_register_page">Mari Daftarkan diri Anda</string>
+    <string name="description_register_page">Senang bergabung dengan kami, Silakan Daftar Terlebih Dahulu</string>
+    <string name="text_login">Belum Mempunyai Akun ?</string>
+    <string name="href_register">Daftar</string>
+    <string name="text_register">Sudah Mmepunyai Akun ?</string>
+    <string name="href_login">Masuk</string>
+    <string name="accessibility">Aksesbilitas</string>
+    <string name="language">Bahasa</string>
+    <string name="title_card">Mulai Pilah Sampah Sekarang</string>
+    <string name="penjelasan">Penjelasan</string>
+    <string name="description_card_sampah">Pilah sampahmu sekarang untuk kebersihan lingkungan yang bersih.</string>
+    <string name="description_card">Pelajari lebih lanjut tentang jenis-jenis sampah dan cara memilahnya.</string>
+    <string name="home">Beranda</string>
+    <string name="memindai_sampah">Memindai Sampah</string>
+    <string name="jenis_sampah">Kenali Jenis Jenis Sampah</string>
+    <string name="camera">Kamera</string>
+    <string name="description">Penjelasan</string>
+    <string name="history_saved">Riwayat Tersimpan</string>
+    <string name="related_news">Berita Terkait</string>
+    <string name="settings">Pengaturan</string>
+    <string name="fruit">Buah</string>
+    <string name="description_fruit">Sampah Organik/Anorganik</string>
+    <string name="intro">Sampah dapat dikategorikan menjadi dua jenis utama, yaitu sampah organik dan anorganik.</string>
+    <string name="description_sampah_organik">Sampah Organik adalah Sampah yang berasal dari makhluk hidup dan mudah terurai secara alami. Sampah ini umumnya ramah lingkungan dan dapat diolah kembali menjadi sesuatu yang bermanfaat.</string>
+    <string name="title_sampah_organik">Sampah Organik</string>
+    <string name="description_sampah_anorganik">Sampah Anorganik adalah sampah yang berasal dari bahan-bahan nonhayati dan sulit terurai. Sampah ini umumnya tidak ramah lingkungan dan membutuhkan waktu lama untuk terurai, bahkan ada yang tidak terurai sama sekali.</string>
+    <string name="title_sampah_anorganik">Sampah Anorganik</string>
+    <string name="example">Contoh :</string>
+
+    <!-- Sampah Organik -->
+    <string name="kulitbuah">Kulit buah</string>
+    <string name="daunkering">Daun Kering</string>
+    <string name="rantingpohon">Ranting Pohon</string>
+    <string name="bungalayu">Bunga Layu</string>
+    <string name="cangkangtelur">Cangkang Telur</string>
+    <string name="tulanghewan">Tulang Hewan</string>
+    <string name="rumputliar">Rumput liar</string>
+    <string name="tisu">Tisu</string>
+    <string name="ampaskopi">Ampas Kopi</string>
+    <string name="ampasteh">Ampas Teh</string>
+
+    <!-- Sampah Anorganik -->
+    <string name="botolplatik">Botol Plastik</string>
+    <string name="kantongplastik">Kantong Plastik</string>
+    <string name="kaleng">Kaleng</string>
+    <string name="pecahankaca">Pecahan Kaca</string>
+    <string name="baterai">Baterai</string>
+    <string name="ban">Ban</string>
+    <string name="pakaian">Pakaian</string>
+    <string name="perabotan">Perabotan</string>
+    <string name="kabel">Kabel</string>
+    <string name="lampu">Lampu</string>
+
+    <!--  Bottom Navigation Menu  -->
+    <string name="beranda">Beranda</string>
+    <string name="berita">Berita</string>
+    <string name="riwayat">Riwayat</string>
+    <string name="pengaturan">Pengaturan</string>
+
+    <string name="back">Tekan kembali untuk keluar</string>
+    <string name="confirm">Konfirmasi Keluar dari Akun</string>
+    <string name="yes">Ya</string>
+    <string name="no">Tidak</string>
+    <string name="message">Apakah Anda yakin ingin keluar?</string>
+
+    <string name="fail_login">Akun gagal masuk</string>
+    <string name="fail_register">Akun gagal didaftarkan</string>
+    <string name="done_login">Tekan OK untuk lanjut ke halaman berikutnya</string>
+    <string name="done_register">Akun telah berhasil didaftarkan, Silakan login.</string>
+    <string name="error_message">Harap lengkapi semua data dengan benar</string>
+    <string name="ok">Ok</string>
+    <string name="done_message">Berhasil</string>
+    <string name="goToLogin">Masuk ke Halaman Login</string>
+    <string name="or">Atau</string>
+</resources>

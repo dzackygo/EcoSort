@@ -1,5 +1,6 @@
 package com.app.ecosort.view.register
 
+import android.R.attr
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Intent
@@ -8,32 +9,36 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
-import androidx.activity.enableEdgeToEdge
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
 import com.app.ecosort.R
+import com.app.ecosort.ViewModelFactory
+import com.app.ecosort.data.RegistrationFailedException
+import com.app.ecosort.data.pref.UserPreference
 import com.app.ecosort.databinding.ActivityRegisterBinding
 import com.app.ecosort.helper.PrefHelper
+import com.app.ecosort.view.home.MainActivity
 import com.app.ecosort.view.login.LoginActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
+
+@Suppress("DEPRECATION")
 class RegisterActivity : AppCompatActivity() {
-
     private val  pref by lazy { PrefHelper(this) }
-
     private lateinit var binding: ActivityRegisterBinding
+    private lateinit var registerViewModel: RegisterViewModel
+    private lateinit var userPreference: UserPreference
+    private var backPressedTime: Long = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
         when(pref.getBoolean("dark_mode")) {
             true -> {
@@ -44,11 +49,19 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
 
-        setupView()
-        setupAction1()
-        setupAction2()
-        playAnimation()
+        registerViewModel = ViewModelProvider(this, ViewModelFactory.getInstance(this))[RegisterViewModel::class.java]
 
+        setupView()
+        setupAction()
+        playAnimation()
+        setupAction2()
+
+
+    }
+
+    private fun setupAction2() {
+        binding.hrefSignIn.setOnClickListener {startActivity(Intent(this, LoginActivity::class.java))
+        }
     }
 
     private fun setupView() {
@@ -64,7 +77,7 @@ class RegisterActivity : AppCompatActivity() {
         supportActionBar?.hide()
     }
 
-    private fun setupAction1() {
+    private fun setupAction() {
         binding.signupButton.setOnClickListener {
             val name = binding.nameEditText.text.toString()
             val email = binding.emailEditText.text.toString()
@@ -74,14 +87,28 @@ class RegisterActivity : AppCompatActivity() {
             val isEmailValid = binding.emailEditText.isValid()
             val isPasswordValid = binding.passwordEditText.isValid()
 
+            if (isNameValid && isEmailValid && isPasswordValid) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        registerViewModel.register(name, email, password)
+                        runOnUiThread {
+                            showSuccessMessage(getString(R.string.done_register))
+                        }
+                    } catch (e: RegistrationFailedException) {
+                        runOnUiThread {
+                            showErrorMessage(e.message ?: getString(R.string.fail_register))
+                        }
+                    }
+                }
+            } else {
+                showErrorMessage(getString(R.string.error_message))
+            }
         }
     }
 
-    private fun setupAction2() {
-        binding.hrefSignIn.setOnClickListener {startActivity(Intent(this, LoginActivity::class.java)) }
-    }
 
     private fun playAnimation() {
+
         val title = ObjectAnimator.ofFloat(binding.titleTextView, View.ALPHA, 1f).setDuration(100)
         val description = ObjectAnimator.ofFloat(binding.descriptionTextView, View.ALPHA, 1f).setDuration(100)
         val nameTextView = ObjectAnimator.ofFloat(binding.idTextView, View.ALPHA, 1f).setDuration(100)
@@ -108,10 +135,38 @@ class RegisterActivity : AppCompatActivity() {
         }.start()
     }
 
+    private fun showErrorMessage(message: String) {
+        AlertDialog.Builder(this).apply {
+            setTitle(getString(R.string.fail_register))
+            setMessage(getString(R.string.error_message))
+            setPositiveButton(getString(R.string.ok), null)
+            create()
+            show()
+        }
+    }
+
+    private fun showSuccessMessage(message: String) {
+        AlertDialog.Builder(this).apply {
+            setTitle(getString(R.string.done_message))
+            setMessage(message)
+            setPositiveButton(getString(R.string.goToLogin)) { dialog, _ ->
+                dialog.dismiss()
+                val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+                startActivity(intent)
+            }
+            create()
+            show()
+        }
+    }
     @Deprecated("Deprecated in Java",
         ReplaceWith("super.onBackPressed()", "androidx.appcompat.app.AppCompatActivity")
     )
     override fun onBackPressed() {
-        super.onBackPressed()
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            finishAffinity()
+        } else {
+            Toast.makeText(this,  getString(R.string.back), Toast.LENGTH_SHORT).show()
+        }
+        backPressedTime = System.currentTimeMillis()
     }
 }
