@@ -76,6 +76,7 @@ class GalleryActivity : AppCompatActivity() {
             viewModel.uploadImage(imageFile).observe(this) { result ->
                 startActivity(Intent(this@GalleryActivity, ResultActivity::class.java))
                 finish()
+
 //                if (result != null) {
 //                    when (result) {
 //                        is ResultState.Loading -> {
