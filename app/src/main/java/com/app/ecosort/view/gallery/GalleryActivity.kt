@@ -13,19 +13,42 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.app.ecosort.R
-import com.app.ecosort.ViewModelFactory
+import com.app.ecosort.ResultState
+import com.app.ecosort.ViewModelFactoryGallery
 import com.app.ecosort.databinding.ActivityGalleryBinding
+import com.app.ecosort.getImageUri
 import com.app.ecosort.reduceFileImage
 import com.app.ecosort.uriToFile
 import com.app.ecosort.view.camera.CameraActivity
+import com.app.ecosort.view.result.ResultActivity
 import com.bumptech.glide.Glide
 
 class GalleryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGalleryBinding
     private var currentImageUri: Uri? = null
+    var uriParse: Boolean = false
 
     private val viewModel by viewModels<GalleryViewModel> {
-        ViewModelFactory.getInstance(this)
+        ViewModelFactoryGallery.getInstance(this)
+    }
+
+    private val launcherGallery = registerForActivityResult(
+        ActivityResultContracts.PickVisualMedia()
+    ) { uri: Uri? ->
+        if (uri != null) {
+            currentImageUri = uri
+            showImage()
+        } else {
+            Log.d("Photo Picker", "No media selected")
+        }
+    }
+
+    private val launcherIntentCamera = registerForActivityResult(
+        ActivityResultContracts.TakePicture()
+    ) { isSuccess ->
+        if (isSuccess) {
+            showImage()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,12 +62,10 @@ class GalleryActivity : AppCompatActivity() {
             insets
         }
 
-        currentImageUri = Uri.parse(intent.getStringExtra(CameraActivity.EXTRA_CAMERAX_IMAGE))
-        Glide.with(this)
-            .load(currentImageUri)
-            .into(binding.previewImageView)
-
+        binding.galleryButton.setOnClickListener { startGallery() }
+        binding.cameraButton.setOnClickListener { startCamera() }
         binding.analyzeButton.setOnClickListener { uploadImage() }
+
     }
 
     private fun uploadImage(){
@@ -52,17 +73,17 @@ class GalleryActivity : AppCompatActivity() {
             val imageFile = uriToFile(uri, this).reduceFileImage()
             Log.d("Image File", "showImage: ${imageFile.path}")
 
-//            viewModel.uploadImage(imageFile, description).observe(this) { result ->
+            viewModel.uploadImage(imageFile).observe(this) { result ->
+                startActivity(Intent(this@GalleryActivity, ResultActivity::class.java))
+                finish()
 //                if (result != null) {
 //                    when (result) {
 //                        is ResultState.Loading -> {
-//                            showLoading(true)
+//
 //                        }
 //
 //                        is ResultState.Success -> {
-//                            showToast(result.data.message)
-//                            showLoading(false)
-//                            startActivity(Intent(this@UploadActivity, MainActivity::class.java))
+//                            startActivity(Intent(this@GalleryActivity, ResultActivity::class.java))
 //                            finish()
 //                        }
 //
@@ -71,11 +92,25 @@ class GalleryActivity : AppCompatActivity() {
 //                        }
 //                    }
 //                }
-//            }
+            }
         } ?: showToast("Pilih Foto dulu")
     }
 
     fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showImage() {
+        currentImageUri?.let {
+            Log.d("Image URI", "showImage: $it")
+            binding.previewImageView.setImageURI(it)
+        }
+    }
+    private fun startGallery() {
+        launcherGallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+    }
+    private fun startCamera() {
+        currentImageUri = getImageUri(this)
+        launcherIntentCamera.launch(currentImageUri!!)
     }
 }

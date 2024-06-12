@@ -8,4 +8,16 @@
     android:background="@color/background"
     tools:context=".view.result.ResultActivity">
 
+    <ImageView
+        android:id="@+id/previewImageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:srcCompat="@drawable/ic_place_holder"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
