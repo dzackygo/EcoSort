@@ -47,8 +47,6 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var mainViewModel: MainViewModel
     private lateinit var userPreference: UserPreference
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
