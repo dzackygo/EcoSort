@@ -28,8 +28,6 @@ import com.app.ecosort.view.gallery.GalleryActivity
 import com.app.ecosort.view.history.HistoryActivity
 import com.app.ecosort.view.news.NewsActivity
 import com.app.ecosort.view.settings.SettingsActivity
-import org.imaginativeworld.whynotimagecarousel.ImageCarousel
-import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
 
 @Suppress("DEPRECATION")
 class MainActivity() : AppCompatActivity() {
@@ -37,7 +35,6 @@ class MainActivity() : AppCompatActivity() {
     private val  pref by lazy { PrefHelper(this) }
     private lateinit var mainViewModel: MainViewModel
     private lateinit var binding: ActivityMainBinding
-    private lateinit var imageCarousel: ImageCarousel
     private var backPressedTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,15 +51,6 @@ class MainActivity() : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        val imageCarousel = ArrayList<CarouselItem>()
-        imageCarousel.add(CarouselItem("https://images.pexels.com/photos/2547565/pexels-photo-2547565.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",getString(R.string.slide_1)))
-        imageCarousel.add(CarouselItem("https://d12man5gwydfvl.cloudfront.net/wp-content/uploads/2018/10/Sampah-Organik-Adalah-1.jpg",getString(R.string.slide_2)))
-        imageCarousel.add(CarouselItem("https://images.pexels.com/photos/10143821/pexels-photo-10143821.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",getString(R.string.slide_3)))
-        imageCarousel.add(CarouselItem("https://4.bp.blogspot.com/-yY6ZluC2BHg/VQD8ZIhnTbI/AAAAAAAAAGE/kjF9bH8XFmg/s1600/sampah-organik%2Bdaun.jpg",getString(R.string.slide_4)))
-        imageCarousel.add(CarouselItem("https://images.pexels.com/photos/128421/pexels-photo-128421.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",getString(R.string.slide_5)))
-
-        binding.carousel.setData(imageCarousel)
 
         mainViewModel = ViewModelProvider(this, ViewModelFactory.getInstance(this))[MainViewModel::class.java]
 
