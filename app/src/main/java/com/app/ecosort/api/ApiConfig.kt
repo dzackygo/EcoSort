@@ -38,7 +38,7 @@ object ApiConfig {
         return retrofit.create(AuthApiService::class.java)
     }
 
-    fun getUploadService(): UploadApiService {
+    fun getUploadService(token: String): UploadApiService {
         val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
         val authInterceptor = Interceptor { chain ->
             val req = chain.request()

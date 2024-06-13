@@ -15,9 +15,13 @@ import androidx.media3.common.util.UnstableApi
 import com.app.ecosort.R
 import com.app.ecosort.api.ApiConfig
 import com.app.ecosort.api.DataModal
+import com.app.ecosort.data.pref.UserPreference
+import com.app.ecosort.data.pref.dataStore
 import com.app.ecosort.databinding.ActivityResultBinding
 import com.app.ecosort.response.UploadResponse
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -44,28 +48,27 @@ class ResultActivity : AppCompatActivity() {
     }
 
     private fun findImage() {
-        dataModal?.let { ApiConfig.getUploadService().createPost(it) }
-            ?.enqueue(object : Callback<UploadResponse> {
+        val pref = UserPreference.getInstance(this.dataStore)
+        val user = runBlocking { pref.getSession().first() }
+        ApiConfig.setAuthToken(user.token)
+        dataModal?.let { ApiConfig.getUploadService(user.token).createPost(it) }
+            ?.enqueue(object : Callback<DataModal> {
                 @OptIn(UnstableApi::class)
-                override fun onResponse(
-                    call: Call<UploadResponse>,
-                    response: Response<UploadResponse>
-                ) {
+                override fun onResponse(call: Call<DataModal>, response: Response<DataModal>) {
                     if (response.isSuccessful) {
                         val responseBody = response.body()
                         if (responseBody != null) {
-                            Glide.with(this@ResultActivity)
-                                .load(responseBody.data)
-                                .into(binding.previewImageView)
-
+                            binding.tvResult.text = responseBody.data
+//                            Glide.with(this@ResultActivity)
+//                                .load(responseBody.data)
+//                                .into(binding.previewImageView)
                         }
                     } else {
                         Log.e(TAG, "onFailure: ${response.message()}")
                     }
                 }
 
-                @OptIn(UnstableApi::class)
-                override fun onFailure(call: Call<UploadResponse>, t: Throwable) {
+                override fun onFailure(call: Call<DataModal>, t: Throwable) {
                     Log.e(TAG, "onFailure: ${t.message}")
                 }
             })

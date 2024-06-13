@@ -28,7 +28,7 @@ object Injection {
 
         ApiConfig.setAuthToken(user.token)
 
-        val apiService = ApiConfig.getUploadService()
+        val apiService = ApiConfig.getUploadService(user.token)
 
         return UploadRepository.getInstance(apiService, pref)
     }

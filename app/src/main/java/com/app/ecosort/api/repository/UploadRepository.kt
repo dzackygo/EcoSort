@@ -1,5 +1,6 @@
 package com.app.ecosort.api.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.app.ecosort.ResultState
@@ -27,8 +28,9 @@ class UploadRepository(
                 image.name,
                 requestImageFile
             )
-            uploadApiService = ApiConfig.getUploadService()
+            uploadApiService = ApiConfig.getUploadService(token)
             val response = uploadApiService.uploadImage(multipartBody)
+            Log.d(response.toString(), "uploadImage: ini image")
             emit(ResultState.Success(response))
         } catch (e: Exception) {
             emit(ResultState.Error(e.message.toString()))

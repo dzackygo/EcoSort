@@ -28,6 +28,7 @@ class GalleryActivity : AppCompatActivity() {
     private var currentImageUri: Uri? = null
     var uriParse: Boolean = false
 
+
     private val viewModel by viewModels<GalleryViewModel> {
         ViewModelFactoryGallery.getInstance(this)
     }
@@ -62,6 +63,8 @@ class GalleryActivity : AppCompatActivity() {
             insets
         }
 
+        supportActionBar?.hide()
+
         binding.galleryButton.setOnClickListener { startGallery() }
         binding.cameraButton.setOnClickListener { startCamera() }
         binding.analyzeButton.setOnClickListener { uploadImage() }
@@ -71,7 +74,7 @@ class GalleryActivity : AppCompatActivity() {
     private fun uploadImage(){
         currentImageUri?.let { uri ->
             val imageFile = uriToFile(uri, this).reduceFileImage()
-            Log.d("Image File", "showImage: ${imageFile.path}")
+            Log.d(imageFile.toString(), "showImage: ${imageFile.path}")
 
             viewModel.uploadImage(imageFile).observe(this) { result ->
 //                startActivity(Intent(this@GalleryActivity, ResultActivity::class.java))
