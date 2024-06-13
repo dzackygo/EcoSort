@@ -74,25 +74,25 @@ class GalleryActivity : AppCompatActivity() {
             Log.d("Image File", "showImage: ${imageFile.path}")
 
             viewModel.uploadImage(imageFile).observe(this) { result ->
-                startActivity(Intent(this@GalleryActivity, ResultActivity::class.java))
-                finish()
+//                startActivity(Intent(this@GalleryActivity, ResultActivity::class.java))
+//                finish()
 
-//                if (result != null) {
-//                    when (result) {
-//                        is ResultState.Loading -> {
-//
-//                        }
-//
-//                        is ResultState.Success -> {
-//                            startActivity(Intent(this@GalleryActivity, ResultActivity::class.java))
-//                            finish()
-//                        }
-//
-//                        is ResultState.Error -> {
-//                            showToast(result.error)
-//                        }
-//                    }
-//                }
+                if (result != null) {
+                    when (result) {
+                        is ResultState.Loading -> {
+
+                        }
+
+                        is ResultState.Success -> {
+                            startActivity(Intent(this@GalleryActivity, ResultActivity::class.java))
+                            finish()
+                        }
+
+                        is ResultState.Error -> {
+                            showToast(result.error)
+                        }
+                    }
+                }
             }
         } ?: showToast("Pilih Foto dulu")
     }

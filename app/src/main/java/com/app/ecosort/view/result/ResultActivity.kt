@@ -14,6 +14,7 @@ import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import com.app.ecosort.R
 import com.app.ecosort.api.ApiConfig
+import com.app.ecosort.api.DataModal
 import com.app.ecosort.databinding.ActivityResultBinding
 import com.app.ecosort.response.UploadResponse
 import com.bumptech.glide.Glide
@@ -24,6 +25,8 @@ import retrofit2.Response
 class ResultActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityResultBinding
+    val dataModal: DataModal? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -41,30 +44,31 @@ class ResultActivity : AppCompatActivity() {
     }
 
     private fun findImage() {
-        val client = ApiConfig.getUploadService().getImage("")
-        client.enqueue(object : Callback<UploadResponse> {
-            @OptIn(UnstableApi::class)
-            override fun onResponse(
-                call: Call<UploadResponse>,
-                response: Response<UploadResponse>
-            ) {
-                if (response.isSuccessful) {
-                    val responseBody = response.body()
-                    if (responseBody != null) {
-                        Glide.with(this@ResultActivity)
-                            .load(responseBody.data)
-                            .into(binding.previewImageView)
-                    }
-                } else {
-                    Log.e(TAG, "onFailure: ${response.message()}")
-                }
-            }
+        dataModal?.let { ApiConfig.getUploadService().createPost(it) }
+            ?.enqueue(object : Callback<UploadResponse> {
+                @OptIn(UnstableApi::class)
+                override fun onResponse(
+                    call: Call<UploadResponse>,
+                    response: Response<UploadResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val responseBody = response.body()
+                        if (responseBody != null) {
+                            Glide.with(this@ResultActivity)
+                                .load(responseBody.data)
+                                .into(binding.previewImageView)
 
-            @OptIn(UnstableApi::class)
-            override fun onFailure(call: Call<UploadResponse>, t: Throwable) {
-                Log.e(TAG, "onFailure: ${t.message}")
-            }
-        })
+                        }
+                    } else {
+                        Log.e(TAG, "onFailure: ${response.message()}")
+                    }
+                }
+
+                @OptIn(UnstableApi::class)
+                override fun onFailure(call: Call<UploadResponse>, t: Throwable) {
+                    Log.e(TAG, "onFailure: ${t.message}")
+                }
+            })
     }
 
     private fun setupView() {
