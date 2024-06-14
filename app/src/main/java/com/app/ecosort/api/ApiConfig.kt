@@ -53,7 +53,7 @@ object ApiConfig {
             .addInterceptor(authInterceptor)
             .build()
         val retrofit = Retrofit.Builder()
-            .baseUrl(AUTH_URL)
+            .baseUrl(UPLOAD_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()

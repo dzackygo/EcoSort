@@ -26,8 +26,6 @@ import com.bumptech.glide.Glide
 class GalleryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGalleryBinding
     private var currentImageUri: Uri? = null
-    var uriParse: Boolean = false
-
 
     private val viewModel by viewModels<GalleryViewModel> {
         ViewModelFactoryGallery.getInstance(this)
@@ -55,6 +53,7 @@ class GalleryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityGalleryBinding.inflate(layoutInflater)
+
         enableEdgeToEdge()
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
