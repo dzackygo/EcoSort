@@ -8,30 +8,4 @@
     android:background="@color/background"
     tools:context=".view.result.ResultActivity">
 
-    <ImageView
-        android:id="@+id/previewImageView"
-        android:layout_width="0dp"
-        android:layout_height="400dp"
-        android:layout_margin="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/tv_result"
-        app:srcCompat="@drawable/ic_place_holder"
-        />
-
-    <TextView
-        android:id="@+id/tv_result"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:padding="8sp"
-        android:text="@string/result"
-        android:fontFamily="@font/montserrat_bold"
-        android:textSize="30sp"
-        app:layout_constraintTop_toBottomOf="@id/previewImageView"
-        app:layout_constraintStart_toStartOf="@id/previewImageView"
-        app:layout_constraintEnd_toEndOf="@id/previewImageView"
-        />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
