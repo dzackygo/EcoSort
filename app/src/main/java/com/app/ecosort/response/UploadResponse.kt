@@ -14,5 +14,17 @@ data class UploadResponse(
 	val error: Boolean,
 
 	@field:SerializedName("image_detail")
-	val imageDetail: Any
+	val imageDetail: List<ImageDetailItem>
+)
+
+data class ImageDetailItem(
+
+	@field:SerializedName("sorting")
+	val sorting: String,
+
+	@field:SerializedName("confidence")
+	val confidence: Any,
+
+	@field:SerializedName("classification")
+	val classification: String
 )
