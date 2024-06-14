@@ -16,21 +16,19 @@ import java.io.File
 
 class UploadRepository(
     private var uploadApiService: UploadApiService,
-    private var userPreference: UserPreference
 ) {
     fun uploadImage(image: File): LiveData<ResultState<UploadResponse>> = liveData {
         emit(ResultState.Loading)
         try {
-            val token = userPreference.getToken().first()
             val requestImageFile = image.asRequestBody("image/jpeg".toMediaTypeOrNull())
             val multipartBody = MultipartBody.Part.createFormData(
                 "photo",
                 image.name,
                 requestImageFile
             )
-            uploadApiService = ApiConfig.getUploadService(token)
+            uploadApiService = ApiConfig.getUploadService()
             val response = uploadApiService.uploadImage(multipartBody)
-            Log.d(response.toString(), "uploadImage: ini image")
+            Log.d("uploadImage: ", response.toString())
             emit(ResultState.Success(response))
         } catch (e: Exception) {
             emit(ResultState.Error(e.message.toString()))
@@ -42,10 +40,9 @@ class UploadRepository(
         private var instance: UploadRepository? = null
         fun getInstance(
             uploadApiService: UploadApiService,
-            userPreference: UserPreference
         ): UploadRepository =
             instance ?: synchronized(this) {
-                instance ?: UploadRepository(uploadApiService, userPreference)
+                instance ?: UploadRepository(uploadApiService)
             }.also { instance = it }
 
     }

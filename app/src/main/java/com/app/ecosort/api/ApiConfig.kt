@@ -12,6 +12,7 @@ object ApiConfig {
     const val API_KEY = BuildConfig.NEWS_API_KEY
 
     private const val AUTH_URL = "https://bangkit-backend-rp.rap.my.id/api/v1/"
+    private const val UPLOAD_URL = "https://ecosort-backend.rap.my.id/api/v1/"
     private var authToken: String? = null
     fun setAuthToken(token: String) {
         authToken = token
@@ -38,7 +39,7 @@ object ApiConfig {
         return retrofit.create(AuthApiService::class.java)
     }
 
-    fun getUploadService(token: String): UploadApiService {
+    fun getUploadService(): UploadApiService {
         val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
         val authInterceptor = Interceptor { chain ->
             val req = chain.request()

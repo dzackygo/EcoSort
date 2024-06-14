@@ -14,7 +14,6 @@ import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import com.app.ecosort.R
 import com.app.ecosort.api.ApiConfig
-import com.app.ecosort.api.DataModal
 import com.app.ecosort.data.pref.UserPreference
 import com.app.ecosort.data.pref.dataStore
 import com.app.ecosort.databinding.ActivityResultBinding
@@ -29,7 +28,7 @@ import retrofit2.Response
 class ResultActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityResultBinding
-    val dataModal: DataModal? = null
+    val uploadResponse: UploadResponse? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,25 +50,29 @@ class ResultActivity : AppCompatActivity() {
         val pref = UserPreference.getInstance(this.dataStore)
         val user = runBlocking { pref.getSession().first() }
         ApiConfig.setAuthToken(user.token)
-        dataModal?.let { ApiConfig.getUploadService(user.token).createPost(it) }
-            ?.enqueue(object : Callback<DataModal> {
+        uploadResponse?.let { ApiConfig.getUploadService().createPost(it) }
+            ?.enqueue(object : Callback<UploadResponse> {
                 @OptIn(UnstableApi::class)
-                override fun onResponse(call: Call<DataModal>, response: Response<DataModal>) {
+                override fun onResponse(
+                    call: Call<UploadResponse>,
+                    response: Response<UploadResponse>
+                ) {
                     if (response.isSuccessful) {
                         val responseBody = response.body()
                         if (responseBody != null) {
-                            binding.tvResult.text = responseBody.data
-//                            Glide.with(this@ResultActivity)
-//                                .load(responseBody.data)
-//                                .into(binding.previewImageView)
+
+//                            binding.tvResult.text = responseBody.imageDetail.toString()
+
+                            Glide.with(this@ResultActivity)
+                                .load(responseBody.image)
+                                .into(binding.previewImageView)
                         }
                     } else {
                         Log.e(TAG, "onFailure: ${response.message()}")
                     }
                 }
+                override fun onFailure(call: Call<UploadResponse>, t: Throwable) {
 
-                override fun onFailure(call: Call<DataModal>, t: Throwable) {
-                    Log.e(TAG, "onFailure: ${t.message}")
                 }
             })
     }

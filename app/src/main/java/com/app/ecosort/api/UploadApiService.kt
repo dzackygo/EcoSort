@@ -16,6 +16,6 @@ interface UploadApiService {
     ): UploadResponse
 
     @POST("app/images")
-    fun createPost(@Body dataModal: DataModal): Call<DataModal>
+    fun createPost(@Body uploadResponse: UploadResponse): Call<UploadResponse>
 
 }

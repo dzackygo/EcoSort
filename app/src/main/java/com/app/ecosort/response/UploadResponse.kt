@@ -4,12 +4,15 @@ import com.google.gson.annotations.SerializedName
 
 data class UploadResponse(
 
-	@field:SerializedName("data")
-	val data: String,
+	@field:SerializedName("image")
+	val image: String,
 
 	@field:SerializedName("messages")
 	val messages: String,
 
-	@field:SerializedName("status")
-	val status: Int
+	@field:SerializedName("error")
+	val error: Boolean,
+
+	@field:SerializedName("image_detail")
+	val imageDetail: Any
 )

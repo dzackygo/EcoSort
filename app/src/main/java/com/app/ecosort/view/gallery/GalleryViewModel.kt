@@ -1,6 +1,5 @@
 package com.app.ecosort.view.gallery
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.app.ecosort.ResultState
