@@ -6,9 +6,7 @@ import androidx.lifecycle.liveData
 import com.app.ecosort.ResultState
 import com.app.ecosort.api.ApiConfig
 import com.app.ecosort.api.UploadApiService
-import com.app.ecosort.data.pref.UserPreference
 import com.app.ecosort.response.UploadResponse
-import kotlinx.coroutines.flow.first
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody

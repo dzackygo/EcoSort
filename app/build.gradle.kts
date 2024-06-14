@@ -18,8 +18,9 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "NEWS_API_KEY", "\"a7ef6b8a6705499aac44ba446420c3f2\"")
-//        buildConfigField("String", "AUTH_URL", "\"https://bangkit-backend-rp.rap.my.id/api/v1/\"")
+        buildConfigField("String", "AUTH_URL", "\"https://bangkit-backend-rp.rap.my.id/api/v1/\"")
         buildConfigField("String", "NEWS_API_URL", "\"https://newsapi.org/v2/\"")
+        buildConfigField("String", "UPLOAD_URL", "\"https://ecosort-backend.rap.my.id/api/v1/\"")
     }
 
     buildTypes {
@@ -48,7 +49,6 @@ android {
 
 dependencies {
 
-    implementation(libs.androidx.media3.common)
     val cameraxVersion = "1.2.3"
 
 

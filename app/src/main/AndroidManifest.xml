@@ -19,9 +19,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EcoSort"
         tools:targetApi="31">
-
         <activity
             android:name=".view.gallery.GalleryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.history.HistoryDetailActivity"
             android:exported="false" />
         <activity
             android:name=".view.description.DescriptionActivity"
@@ -31,9 +33,6 @@
             android:exported="false" />
         <activity
             android:name=".view.history.HistoryActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.history.HistoryDetailActivity"
             android:exported="false" />
         <activity
             android:name=".view.home.MainActivity"

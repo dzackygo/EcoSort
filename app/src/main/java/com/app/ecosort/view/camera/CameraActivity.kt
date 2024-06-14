@@ -293,7 +293,6 @@ class CameraActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "CameraActivity"
         const val EXTRA_CAMERAX_IMAGE = "CameraX Image"
-        const val EXTRA_CAMERAX_STATUS = true
         const val CAMERAX_RESULT = 200
         private const val REQUIRED_PERMISSION = Manifest.permission.CAMERA
     }

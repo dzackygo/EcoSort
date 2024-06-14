@@ -10,9 +10,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 object ApiConfig {
     const val BASE_URL = BuildConfig.NEWS_API_URL
     const val API_KEY = BuildConfig.NEWS_API_KEY
+    private const val AUTH_URL = BuildConfig.AUTH_URL
+    private const val UPLOAD_URL = BuildConfig.UPLOAD_URL
 
-    private const val AUTH_URL = "https://bangkit-backend-rp.rap.my.id/api/v1/"
-    private const val UPLOAD_URL = "https://ecosort-backend.rap.my.id/api/v1/"
     private var authToken: String? = null
     fun setAuthToken(token: String) {
         authToken = token
