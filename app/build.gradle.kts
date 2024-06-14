@@ -48,6 +48,7 @@ android {
 
 dependencies {
 
+    implementation(libs.androidx.media3.common)
     val cameraxVersion = "1.2.3"
 
 

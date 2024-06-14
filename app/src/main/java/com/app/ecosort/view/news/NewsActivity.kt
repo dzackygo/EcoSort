@@ -27,6 +27,7 @@ import com.app.ecosort.adapter.NewsAdapter
 import com.app.ecosort.databinding.ActivityNewsBinding
 import com.app.ecosort.helper.PrefHelper
 import com.app.ecosort.view.camera.CameraActivity
+import com.app.ecosort.view.gallery.GalleryActivity
 import com.app.ecosort.view.history.HistoryActivity
 import com.app.ecosort.view.home.MainActivity
 import com.app.ecosort.view.settings.SettingsActivity
@@ -108,7 +109,7 @@ class NewsActivity : AppCompatActivity() {
         }
 
         binding.cameraActivity.setOnClickListener() {
-            val i = Intent(this@NewsActivity, CameraActivity::class.java)
+            val i = Intent(this@NewsActivity, GalleryActivity::class.java)
             startActivity(i)
         }
     }

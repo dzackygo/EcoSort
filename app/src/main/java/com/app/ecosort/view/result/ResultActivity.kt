@@ -1,19 +1,35 @@
 package com.app.ecosort.view.result
 
+import android.content.ContentValues.TAG
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.media3.common.util.Log
+import androidx.media3.common.util.UnstableApi
 import com.app.ecosort.R
+import com.app.ecosort.api.ApiConfig
+import com.app.ecosort.data.pref.UserPreference
+import com.app.ecosort.data.pref.dataStore
 import com.app.ecosort.databinding.ActivityResultBinding
+import com.app.ecosort.response.UploadResponse
+import com.bumptech.glide.Glide
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ResultActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityResultBinding
+    val uploadResponse: UploadResponse? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -27,6 +43,38 @@ class ResultActivity : AppCompatActivity() {
         }
 
         setupView()
+        findImage()
+    }
+
+    private fun findImage() {
+        val pref = UserPreference.getInstance(this.dataStore)
+        val user = runBlocking { pref.getSession().first() }
+        ApiConfig.setAuthToken(user.token)
+        uploadResponse?.let { ApiConfig.getUploadService().createPost(it) }
+            ?.enqueue(object : Callback<UploadResponse> {
+                @OptIn(UnstableApi::class)
+                override fun onResponse(
+                    call: Call<UploadResponse>,
+                    response: Response<UploadResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val responseBody = response.body()
+                        if (responseBody != null) {
+
+//                            binding.tvResult.text = responseBody.imageDetail.toString()
+
+                            Glide.with(this@ResultActivity)
+                                .load(responseBody.image)
+                                .into(binding.previewImageView)
+                        }
+                    } else {
+                        Log.e(TAG, "onFailure: ${response.message()}")
+                    }
+                }
+                override fun onFailure(call: Call<UploadResponse>, t: Throwable) {
+
+                }
+            })
     }
 
     private fun setupView() {
