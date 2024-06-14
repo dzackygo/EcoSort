@@ -20,11 +20,9 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import com.app.ecosort.R
 import com.app.ecosort.ViewModelFactory
-import com.app.ecosort.ViewModelFactoryPrivate
 import com.app.ecosort.databinding.ActivityHistoryBinding
 import com.app.ecosort.helper.PrefHelper
 import com.app.ecosort.view.camera.CameraActivity
-import com.app.ecosort.view.gallery.GalleryActivity
 import com.app.ecosort.view.home.MainActivity
 import com.app.ecosort.view.login.LoginViewModel
 import com.app.ecosort.view.news.NewsActivity
@@ -46,7 +44,7 @@ class HistoryActivity : AppCompatActivity() {
         setContentView(binding.root)
         overridePendingTransition(0, 0)
 
-        historyViewModel = ViewModelProvider(this, ViewModelFactoryPrivate.getInstance(this.application))[HistoryViewModel::class.java]
+        historyViewModel = ViewModelProvider(this, ViewModelFactory.getInstance(this))[HistoryViewModel::class.java]
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -96,7 +94,7 @@ class HistoryActivity : AppCompatActivity() {
         }
 
         binding.cameraActivity.setOnClickListener() {
-            val i = Intent(this@HistoryActivity, GalleryActivity::class.java)
+            val i = Intent(this@HistoryActivity, CameraActivity::class.java)
             startActivity(i)
         }
     }
@@ -130,7 +128,6 @@ class HistoryActivity : AppCompatActivity() {
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
-        super.onBackPressed()
         if (backPressedTime + 2000 > System.currentTimeMillis()) {
             finishAffinity()
         } else {

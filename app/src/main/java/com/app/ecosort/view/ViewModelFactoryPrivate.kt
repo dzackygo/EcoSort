@@ -1,4 +1,4 @@
-package com.app.ecosort
+package com.app.ecosort.view
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
@@ -28,6 +28,9 @@ class ViewModelFactoryPrivate private constructor(private val mApplication: Appl
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(HistoryViewModel::class.java)) {
             return HistoryViewModel(mApplication) as T
+        }
+        else if (modelClass.isAssignableFrom(GalleryViewModel::class.java)){
+            return GalleryViewModel(mApplication) as T
         }
         else if (modelClass.isAssignableFrom(HistoryDetailActivity::class.java)) {
             return HistoryViewModel(mApplication) as T
