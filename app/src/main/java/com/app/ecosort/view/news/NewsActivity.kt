@@ -27,6 +27,7 @@ import com.app.ecosort.adapter.NewsAdapter
 import com.app.ecosort.databinding.ActivityNewsBinding
 import com.app.ecosort.helper.PrefHelper
 import com.app.ecosort.view.camera.CameraActivity
+import com.app.ecosort.view.gallery.GalleryActivity
 import com.app.ecosort.view.history.HistoryActivity
 import com.app.ecosort.view.home.MainActivity
 import com.app.ecosort.view.settings.SettingsActivity
@@ -164,11 +165,12 @@ class NewsActivity : AppCompatActivity() {
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
+        super.onBackPressed()
         if (backPressedTime + 2000 > System.currentTimeMillis()) {
             finishAffinity()
         } else {
             Toast.makeText(this,  getString(R.string.back), Toast.LENGTH_SHORT).show()
         }
         backPressedTime = System.currentTimeMillis()
-    }
+        }
 }

@@ -1,7 +1,9 @@
     package com.app.ecosort.data
 
     import com.app.ecosort.api.AuthApiService
-import com.app.ecosort.data.pref.UserModel
+    import com.app.ecosort.data.pref.LoginRequest
+    import com.app.ecosort.data.pref.RegisterRequest
+    import com.app.ecosort.data.pref.UserModel
 import com.app.ecosort.data.pref.UserPreference
 import kotlinx.coroutines.flow.Flow
 
@@ -23,7 +25,8 @@ import kotlinx.coroutines.flow.Flow
 
         suspend fun register(name: String, email: String, password: String) {
             try {
-                val registerResponse = authApiService.register(name, email, password)
+                val registerRequest = RegisterRequest(name, email, password)
+                val registerResponse = authApiService.register(registerRequest)
 
                 if (registerResponse.error == true) {
                     throw RegistrationFailedException("Registration failed: ${registerResponse.message}")
@@ -34,7 +37,9 @@ import kotlinx.coroutines.flow.Flow
         }
         suspend fun login(email: String, password: String) {
             try {
-                val loginResponse = authApiService.login(email, password)
+                val loginRequest = LoginRequest(email, password)
+
+                val loginResponse = authApiService.login(loginRequest)
 
                 if (loginResponse.error == true) {
                     throw LoginFailedException("Login failed: ${loginResponse.message}")

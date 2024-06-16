@@ -28,6 +28,7 @@ import com.app.ecosort.data.pref.dataStore
 import com.app.ecosort.databinding.ActivitySettingsBinding
 import com.app.ecosort.helper.PrefHelper
 import com.app.ecosort.view.camera.CameraActivity
+import com.app.ecosort.view.gallery.GalleryActivity
 import com.app.ecosort.view.history.HistoryActivity
 import com.app.ecosort.view.home.MainActivity
 import com.app.ecosort.view.home.MainViewModel
@@ -124,7 +125,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         binding.cameraActivity.setOnClickListener() {
-            val i = Intent(this@SettingsActivity, CameraActivity::class.java)
+            val i = Intent(this@SettingsActivity, GalleryActivity::class.java)
             startActivity(i)
         }
     }
