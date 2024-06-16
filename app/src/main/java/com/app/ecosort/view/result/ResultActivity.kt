@@ -50,6 +50,7 @@ class ResultActivity : AppCompatActivity() {
 
         val detail = intent.getStringExtra(GalleryActivity.EXTRA_DETAIL)
         val image = intent.getStringExtra(GalleryActivity.EXTRA_IMAGE)
+        Log.d(image, "onCreate: $image")
         val sorting = intent.getStringExtra(GalleryActivity.EXTRA_SORTING)
         val classification = intent.getStringExtra(GalleryActivity.EXTRA_CLASSIFICATION)
         var confidence = intent.getStringExtra(GalleryActivity.EXTRA_CONFIDENCE)

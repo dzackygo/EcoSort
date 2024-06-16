@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.PickVisualMediaRequest
@@ -85,7 +86,10 @@ class GalleryActivity : AppCompatActivity() {
                 if (result != null) {
                     when (result) {
                         is ResultState.Loading -> {
-
+                            binding.loading.visibility = View.VISIBLE
+                            binding.analyzeButton.isEnabled = false
+                            binding.galleryButton.isEnabled = false
+                            binding.cameraButton.isEnabled = false
                         }
 
                         is ResultState.Success -> {
@@ -107,6 +111,7 @@ class GalleryActivity : AppCompatActivity() {
                                 detail as Serializable
                             )
                             showToast(result.data.messages)
+                            binding.loading.visibility = View.GONE
                             startActivity(intent)
                             finish()
                         }
