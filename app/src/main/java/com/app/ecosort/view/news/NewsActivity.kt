@@ -109,7 +109,7 @@ class NewsActivity : AppCompatActivity() {
         }
 
         binding.cameraActivity.setOnClickListener() {
-            val i = Intent(this@NewsActivity, GalleryActivity::class.java)
+            val i = Intent(this@NewsActivity, CameraActivity::class.java)
             startActivity(i)
         }
     }
@@ -165,11 +165,12 @@ class NewsActivity : AppCompatActivity() {
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
+        super.onBackPressed()
         if (backPressedTime + 2000 > System.currentTimeMillis()) {
             finishAffinity()
         } else {
             Toast.makeText(this,  getString(R.string.back), Toast.LENGTH_SHORT).show()
         }
         backPressedTime = System.currentTimeMillis()
-    }
+        }
 }

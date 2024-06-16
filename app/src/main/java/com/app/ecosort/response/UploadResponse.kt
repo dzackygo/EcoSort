@@ -1,6 +1,7 @@
 package com.app.ecosort.response
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class UploadResponse(
 
@@ -19,12 +20,12 @@ data class UploadResponse(
 
 data class ImageDetailItem(
 
-	@field:SerializedName("sorting")
-	val sorting: String,
-
 	@field:SerializedName("confidence")
 	val confidence: Double,
 
+	@field:SerializedName("sorting")
+	val sorting: String,
+
 	@field:SerializedName("classification")
 	val classification: String
-)
+) : Serializable

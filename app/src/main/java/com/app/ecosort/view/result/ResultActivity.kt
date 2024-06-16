@@ -21,6 +21,7 @@ import com.app.ecosort.data.pref.dataStore
 import com.app.ecosort.databinding.ActivityResultBinding
 import com.app.ecosort.response.UploadResponse
 import com.app.ecosort.view.gallery.GalleryActivity
+import com.app.ecosort.view.home.MainActivity
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -32,7 +33,7 @@ class ResultActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityResultBinding
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -47,25 +48,28 @@ class ResultActivity : AppCompatActivity() {
 
         setupView()
 
-
+        val detail = intent.getStringExtra(GalleryActivity.EXTRA_DETAIL)
         val image = intent.getStringExtra(GalleryActivity.EXTRA_IMAGE)
         val sorting = intent.getStringExtra(GalleryActivity.EXTRA_SORTING)
         val classification = intent.getStringExtra(GalleryActivity.EXTRA_CLASSIFICATION)
-        val confidence = intent.getStringExtra(GalleryActivity.EXTRA_CONFIDENCE)
+        var confidence = intent.getStringExtra(GalleryActivity.EXTRA_CONFIDENCE)
+        confidence = confidence?.substring(2, 4)
 
-//        if (image != null && sorting != null && classification != null && confidence != null) {
-            Glide.with(this@ResultActivity)
-                .load(image)
-                .into(binding.previewImageView)
+        Glide.with(this@ResultActivity)
+            .load(image)
+            .into(binding.previewImageView)
 
-            binding.tvResult.text =
-                    "$confidence $classification ($sorting)"
-//        }
-//        else {
-//            finish()
-//            val intent = Intent(this@ResultActivity, GalleryActivity::class.java)
-//            startActivity(intent)
-//        }
+        binding.tvResult.text = "$confidence% $classification ($sorting)"
+//        binding.tvResult.text = "$detail"
+
+        binding.btnRetake.setOnClickListener{ v ->
+            startActivity(Intent(this@ResultActivity, GalleryActivity::class.java))
+            finish()
+        }
+        binding.btnToMain.setOnClickListener{ v ->
+            startActivity(Intent(this@ResultActivity, MainActivity::class.java))
+            finish()
+        }
     }
 
     private fun setupView() {

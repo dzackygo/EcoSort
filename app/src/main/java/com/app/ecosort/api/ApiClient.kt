@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
     private val newsRetrofit = Retrofit.Builder()
-        .baseUrl(ApiConfig.BASE_URL)
+        .baseUrl(ApiConfig.NEWS_BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

@@ -33,6 +33,6 @@ class NewsRepository {
                 override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
                     onFailure(t.message ?: "Unknown error")
                 }
-            })
-    }
+                })
+        }
 }

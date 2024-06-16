@@ -55,6 +55,6 @@ class NewsAdapter : ListAdapter<NewsItem, NewsAdapter.ViewHolder>(DiffCallback()
 
         override fun areContentsTheSame(oldItem: NewsItem, newItem: NewsItem): Boolean {
             return oldItem == newItem
+            }
         }
-    }
 }
