@@ -1,5 +1,6 @@
 package com.app.ecosort.view.gallery
 
+import android.content.ContentValues
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -15,13 +16,19 @@ import androidx.core.view.WindowInsetsCompat
 import com.app.ecosort.R
 import com.app.ecosort.ResultState
 import com.app.ecosort.ViewModelFactoryGallery
+import com.app.ecosort.api.ApiConfig
 import com.app.ecosort.databinding.ActivityGalleryBinding
 import com.app.ecosort.getImageUri
 import com.app.ecosort.reduceFileImage
+import com.app.ecosort.response.ImageDetailItem
+import com.app.ecosort.response.UploadResponse
 import com.app.ecosort.uriToFile
 import com.app.ecosort.view.camera.CameraActivity
 import com.app.ecosort.view.result.ResultActivity
 import com.bumptech.glide.Glide
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class GalleryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGalleryBinding
@@ -72,12 +79,10 @@ class GalleryActivity : AppCompatActivity() {
 
     private fun uploadImage(){
         currentImageUri?.let { uri ->
-            val imageFile = uriToFile(uri, this).reduceFileImage()
-            Log.d(imageFile.toString(), "showImage: ${imageFile.path}")
+            val imageFile = uriToFile(currentImageUri!!, this).reduceFileImage()
+            Log.d(imageFile.path, "ini image mau dikirim")
 
             viewModel.uploadImage(imageFile).observe(this) { result ->
-//                startActivity(Intent(this@GalleryActivity, ResultActivity::class.java))
-//                finish()
 
                 if (result != null) {
                     when (result) {
@@ -86,8 +91,33 @@ class GalleryActivity : AppCompatActivity() {
                         }
 
                         is ResultState.Success -> {
-                            startActivity(Intent(this@GalleryActivity, ResultActivity::class.java))
-                            finish()
+                            val detail: List<ImageDetailItem> = result.data.imageDetail
+                            var sorting = detail[0].sorting
+                            var classification = detail[0].classification
+                            var confidence = detail[0].confidence
+
+                            for (i in detail.indices) {
+                                for (j in detail.indices){
+                                    if (detail[i].confidence > detail[j].confidence) {
+                                        sorting = detail[i].sorting
+                                        classification = detail[i].classification
+                                        confidence = detail[i].confidence
+                                    }
+                                    else {
+                                        sorting = detail[j].sorting
+                                        classification = detail[j].classification
+                                        confidence = detail[j].confidence
+                                    }
+                                }
+                            }
+                            val intent = Intent(this@GalleryActivity, ResultActivity::class.java)
+                            intent.putExtra(EXTRA_IMAGE, result.data.image)
+                            intent.putExtra(EXTRA_SORTING, sorting)
+                            intent.putExtra(EXTRA_CLASSIFICATION, classification)
+                            intent.putExtra(EXTRA_CONFIDENCE, confidence)
+                            showToast(result.data.messages)
+                            startActivity(intent)
+
                         }
 
                         is ResultState.Error -> {
@@ -98,7 +128,6 @@ class GalleryActivity : AppCompatActivity() {
             }
         } ?: showToast("Pilih Foto dulu")
     }
-
     fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
@@ -115,5 +144,12 @@ class GalleryActivity : AppCompatActivity() {
     private fun startCamera() {
         currentImageUri = getImageUri(this)
         launcherIntentCamera.launch(currentImageUri!!)
+    }
+    companion object {
+        const val EXTRA_IMAGE = "extra image"
+        const val EXTRA_SORTING = "extra sorting"
+        const val EXTRA_CLASSIFICATION = "extra classification"
+        const val EXTRA_CONFIDENCE = "extra confidence"
+
     }
 }

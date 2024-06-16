@@ -23,7 +23,7 @@ data class ImageDetailItem(
 	val sorting: String,
 
 	@field:SerializedName("confidence")
-	val confidence: Any,
+	val confidence: Double,
 
 	@field:SerializedName("classification")
 	val classification: String

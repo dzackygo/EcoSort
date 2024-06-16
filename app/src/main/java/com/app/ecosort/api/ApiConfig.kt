@@ -8,12 +8,12 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiConfig {
-    const val BASE_URL = BuildConfig.NEWS_API_URL
+    const val NEWS_BASE_URL = BuildConfig.NEWS_API_URL
     const val API_KEY = BuildConfig.NEWS_API_KEY
-    private const val AUTH_URL = BuildConfig.AUTH_URL
-    private const val UPLOAD_URL = BuildConfig.UPLOAD_URL
+    const val BASE_URL = BuildConfig.BASE_URL
 
     private var authToken: String? = null
+
     fun setAuthToken(token: String) {
         authToken = token
     }
@@ -32,31 +32,32 @@ object ApiConfig {
             .addInterceptor(authInterceptor)
             .build()
         val retrofit = Retrofit.Builder()
-            .baseUrl(AUTH_URL)
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
         return retrofit.create(AuthApiService::class.java)
-    }
+        }
+
 
     fun getUploadService(): UploadApiService {
-        val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-        val authInterceptor = Interceptor { chain ->
-            val req = chain.request()
-            val requestHeaders = req.newBuilder()
-                .addHeader("Authorization", "Bearer $authToken")
-                .build()
+            val loggingInterceptor = if(BuildConfig.DEBUG) { HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY) }else { HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE) }
+            val authInterceptor = Interceptor { chain ->
+                val req = chain.request()
+                val requestHeaders = req.newBuilder()
+                    .addHeader("Authorization", "Bearer $authToken")
+                    .build()
             chain.proceed(requestHeaders)
-        }
-        val client = OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
-            .addInterceptor(authInterceptor)
-            .build()
-        val retrofit = Retrofit.Builder()
-            .baseUrl(UPLOAD_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
-            .build()
-        return retrofit.create(UploadApiService::class.java)
+            }
+            val client = OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                .addInterceptor(authInterceptor)
+                .build()
+            val retrofit = Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build()
+            return retrofit.create(UploadApiService::class.java)
     }
 }

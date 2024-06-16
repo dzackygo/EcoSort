@@ -10,4 +10,5 @@ object ApiClient {
         .build()
 
     val newsApiService: NewsApiService = newsRetrofit.create(NewsApiService::class.java)
+
 }

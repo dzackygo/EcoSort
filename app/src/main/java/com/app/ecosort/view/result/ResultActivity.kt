@@ -1,6 +1,9 @@
 package com.app.ecosort.view.result
 
+import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +20,7 @@ import com.app.ecosort.data.pref.UserPreference
 import com.app.ecosort.data.pref.dataStore
 import com.app.ecosort.databinding.ActivityResultBinding
 import com.app.ecosort.response.UploadResponse
+import com.app.ecosort.view.gallery.GalleryActivity
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -27,8 +31,8 @@ import retrofit2.Response
 class ResultActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityResultBinding
-    val uploadResponse: UploadResponse? = null
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -42,37 +46,26 @@ class ResultActivity : AppCompatActivity() {
         }
 
         setupView()
-        findImage()
-    }
 
-    private fun findImage() {
-        val pref = UserPreference.getInstance(this.dataStore)
-        val user = runBlocking { pref.getSession().first() }
-        ApiConfig.setAuthToken(user.token)
-        uploadResponse?.let { ApiConfig.getUploadService().createPost(it) }
-            ?.enqueue(object : Callback<UploadResponse> {
-                override fun onResponse(
-                    call: Call<UploadResponse>,
-                    response: Response<UploadResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        val responseBody = response.body()
-                        if (responseBody != null) {
 
-//                            binding.tvResult.text = responseBody.imageDetail.toString()
+        val image = intent.getStringExtra(GalleryActivity.EXTRA_IMAGE)
+        val sorting = intent.getStringExtra(GalleryActivity.EXTRA_SORTING)
+        val classification = intent.getStringExtra(GalleryActivity.EXTRA_CLASSIFICATION)
+        val confidence = intent.getStringExtra(GalleryActivity.EXTRA_CONFIDENCE)
 
-                            Glide.with(this@ResultActivity)
-                                .load(responseBody.image)
-                                .into(binding.previewImageView)
-                        }
-                    } else {
-                        Log.e(TAG, "onFailure: ${response.message()}")
-                    }
-                }
-                override fun onFailure(call: Call<UploadResponse>, t: Throwable) {
+//        if (image != null && sorting != null && classification != null && confidence != null) {
+            Glide.with(this@ResultActivity)
+                .load(image)
+                .into(binding.previewImageView)
 
-                }
-            })
+            binding.tvResult.text =
+                    "$confidence $classification ($sorting)"
+//        }
+//        else {
+//            finish()
+//            val intent = Intent(this@ResultActivity, GalleryActivity::class.java)
+//            startActivity(intent)
+//        }
     }
 
     private fun setupView() {
