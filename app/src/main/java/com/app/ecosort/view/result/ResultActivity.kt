@@ -9,29 +9,41 @@ import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.app.ecosort.R
+import com.app.ecosort.ViewModelFactoryPrivate
 import com.app.ecosort.api.ApiConfig
 import com.app.ecosort.data.pref.UserPreference
 import com.app.ecosort.data.pref.dataStore
 import com.app.ecosort.databinding.ActivityResultBinding
 import com.app.ecosort.response.UploadResponse
 import com.app.ecosort.view.gallery.GalleryActivity
+import com.app.ecosort.view.history.HistoryViewModel
 import com.app.ecosort.view.home.MainActivity
 import com.bumptech.glide.Glide
+import com.dicoding.asclepius.database.History
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class ResultActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityResultBinding
+    private var history: History? = null
+
+    private val historyViewModel by viewModels<HistoryViewModel>(){
+        ViewModelFactoryPrivate.getInstance(application)
+    }
 
     @SuppressLint("SetTextI18n", "SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,29 +60,38 @@ class ResultActivity : AppCompatActivity() {
 
         setupView()
 
-        val detail = intent.getStringExtra(GalleryActivity.EXTRA_DETAIL)
+
         val image = intent.getStringExtra(GalleryActivity.EXTRA_IMAGE)
-        Log.d(image, "onCreate: $image")
-        val sorting = intent.getStringExtra(GalleryActivity.EXTRA_SORTING)
-        val classification = intent.getStringExtra(GalleryActivity.EXTRA_CLASSIFICATION)
-        var confidence = intent.getStringExtra(GalleryActivity.EXTRA_CONFIDENCE)
-        confidence = confidence?.substring(2, 4)
+        val hasil = intent.getStringExtra(GalleryActivity.EXTRA_DETAIL)
+        Log.d("image result", "onCreate: $image")
+        Log.d("hasil result", "onCreate: $hasil")
 
         Glide.with(this@ResultActivity)
             .load(image)
             .into(binding.previewImageView)
 
-        binding.tvResult.text = "$confidence% $classification ($sorting)"
-//        binding.tvResult.text = "$detail"
+        binding.tvResult.text = hasil
 
-        binding.btnRetake.setOnClickListener{ v ->
+        binding.btnRetake.setOnClickListener{
             startActivity(Intent(this@ResultActivity, GalleryActivity::class.java))
             finish()
         }
-        binding.btnToMain.setOnClickListener{ v ->
+        binding.btnToMain.setOnClickListener{
             startActivity(Intent(this@ResultActivity, MainActivity::class.java))
             finish()
         }
+
+        if(history == null){
+            history = History()
+        }
+        val timestamp = System.currentTimeMillis()
+        val formattedDate = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date(timestamp))
+        history.let{
+            it?.image = image.toString()
+            it?.description = hasil.toString()
+            it?.timestamp = formattedDate.toString()
+        }
+        historyViewModel.insert(history as History)
     }
 
     private fun setupView() {
@@ -84,5 +105,9 @@ class ResultActivity : AppCompatActivity() {
             )
         }
         supportActionBar?.hide()
+    }
+
+    companion object{
+        const val EXTRA_HISTORY = "ResultActivity"
     }
 }

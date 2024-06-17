@@ -1,16 +1,22 @@
 package com.app.ecosort.view.gallery
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.app.ecosort.R
@@ -20,22 +26,50 @@ import com.app.ecosort.databinding.ActivityGalleryBinding
 import com.app.ecosort.getImageUri
 import com.app.ecosort.reduceFileImage
 import com.app.ecosort.response.ImageDetailItem
-import com.app.ecosort.response.UploadResponse
 import com.app.ecosort.uriToFile
 import com.app.ecosort.view.result.ResultActivity
-import java.io.Serializable
 
 
 class GalleryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGalleryBinding
     private var currentImageUri: Uri? = null
-    private var sorting = ""
-    private var classification = ""
-    private var confidence = ""
 
     private val viewModel by viewModels<GalleryViewModel> {
         ViewModelFactoryGallery.getInstance(this)
     }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                startCamera()
+            } else {
+                showToast("Permission denied to access camera")
+            }
+        }
+
+    private fun checkCameraPermission() {
+        when {
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                startCamera()
+            }
+            ActivityCompat.shouldShowRequestPermissionRationale(
+                this,
+                Manifest.permission.CAMERA
+            ) -> {
+                requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+            }
+            else -> {
+                requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+            }
+        }
+    }
+
+
 
     private val launcherGallery = registerForActivityResult(
         ActivityResultContracts.PickVisualMedia()
@@ -68,10 +102,9 @@ class GalleryActivity : AppCompatActivity() {
             insets
         }
 
-        supportActionBar?.hide()
-
+        setupView()
         binding.galleryButton.setOnClickListener { startGallery() }
-        binding.cameraButton.setOnClickListener { startCamera() }
+        binding.cameraButton.setOnClickListener { checkCameraPermission() }
         binding.analyzeButton.setOnClickListener { uploadImage() }
 
     }
@@ -93,25 +126,23 @@ class GalleryActivity : AppCompatActivity() {
                         }
 
                         is ResultState.Success -> {
-                            val detail: List<ImageDetailItem> = result.data.imageDetail
+                            val detail: List<ImageDetailItem>? = result.data.imageDetail
 
-                            val highestConfidenceItem = detail.maxByOrNull { it.confidence }
-                            if (highestConfidenceItem != null) {
-                                sorting = highestConfidenceItem.sorting
-                                classification = highestConfidenceItem.classification
-                                confidence = highestConfidenceItem.confidence.toString()
+                            val hasil = if (detail != null) {
+                                detail.withIndex().joinToString("\n") { (index, item) ->
+                                    "Object ${index + 1} = ${item.confidence.toString().substring(2, 4)}% ${item.classification} (${item.sorting})"
+                                }
+                            } else {
+                                "Sampah Tak Terdeteksi"
                             }
+                            Log.d("Hasil", "uploadImage: $hasil")
+
                             val intent = Intent(this@GalleryActivity, ResultActivity::class.java)
                             intent.putExtra(EXTRA_IMAGE, result.data.image)
-                            intent.putExtra(EXTRA_SORTING, sorting)
-                            intent.putExtra(EXTRA_CLASSIFICATION, classification)
-                            intent.putExtra(EXTRA_CONFIDENCE, confidence)
-                            intent.putExtra(
-                                EXTRA_DETAIL,
-                                detail as Serializable
-                            )
-                            showToast(result.data.messages)
+                            intent.putExtra(EXTRA_DETAIL, hasil)
+
                             binding.loading.visibility = View.GONE
+                            showToast(result.data.messages)
                             startActivity(intent)
                             finish()
                         }
@@ -141,12 +172,21 @@ class GalleryActivity : AppCompatActivity() {
         currentImageUri = getImageUri(this)
         launcherIntentCamera.launch(currentImageUri!!)
     }
+    private fun setupView() {
+        @Suppress("DEPRECATION")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.statusBarColor = ContextCompat.getColor(this, R.color.action_bar)
+        } else {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+            )
+        }
+        supportActionBar?.hide()
+    }
     companion object {
         const val EXTRA_DETAIL = "extra detail"
         const val EXTRA_IMAGE = "extra image"
-        const val EXTRA_SORTING = "extra sorting"
-        const val EXTRA_CLASSIFICATION = "extra classification"
-        const val EXTRA_CONFIDENCE = "extra confidence"
 
     }
 }

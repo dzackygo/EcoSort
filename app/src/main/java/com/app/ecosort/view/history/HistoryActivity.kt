@@ -18,9 +18,11 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.ecosort.R
 import com.app.ecosort.ViewModelFactory
 import com.app.ecosort.ViewModelFactoryPrivate
+import com.app.ecosort.adapter.HistoryAdapter
 import com.app.ecosort.databinding.ActivityHistoryBinding
 import com.app.ecosort.helper.PrefHelper
 import com.app.ecosort.view.camera.CameraActivity
@@ -71,6 +73,17 @@ class HistoryActivity : AppCompatActivity() {
 
         setupView()
 
+        binding?.rvHistory?.layoutManager = LinearLayoutManager(this)
+        binding?.rvHistory?.setHasFixedSize(true)
+
+        val mainViewModel = obtainViewModel(this@HistoryActivity)
+        mainViewModel.getAllNotes().observe(this) { historyList ->
+            if (historyList != null) {
+                val adapter = HistoryAdapter(historyList)
+                binding?.rvHistory?.adapter = adapter
+            }
+        }
+
         binding.bottomNavView.selectedItemId = R.id.history
 
         binding.bottomNavView.setOnNavigationItemSelectedListener { item ->
@@ -99,6 +112,11 @@ class HistoryActivity : AppCompatActivity() {
             val i = Intent(this@HistoryActivity, GalleryActivity::class.java)
             startActivity(i)
         }
+    }
+
+    private fun obtainViewModel(activity: AppCompatActivity): HistoryViewModel {
+        val factory = ViewModelFactoryPrivate.getInstance(activity.application)
+        return ViewModelProvider(activity, factory)[HistoryViewModel::class.java]
     }
 
     private fun updateTheme() {

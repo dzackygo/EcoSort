@@ -93,8 +93,10 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel:2.3.1")
-  
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1")
+
 
 }

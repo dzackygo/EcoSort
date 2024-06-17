@@ -15,7 +15,7 @@ data class UploadResponse(
 	val error: Boolean,
 
 	@field:SerializedName("image_detail")
-	val imageDetail: List<ImageDetailItem>
+	val imageDetail: List<ImageDetailItem>? = null
 )
 
 data class ImageDetailItem(

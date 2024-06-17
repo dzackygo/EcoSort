@@ -109,7 +109,7 @@ class NewsActivity : AppCompatActivity() {
         }
 
         binding.cameraActivity.setOnClickListener() {
-            val i = Intent(this@NewsActivity, CameraActivity::class.java)
+            val i = Intent(this@NewsActivity, GalleryActivity::class.java)
             startActivity(i)
         }
     }

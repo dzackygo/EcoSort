@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.app.ecosort.view.gallery.GalleryViewModel
 import com.app.ecosort.view.history.HistoryDetailActivity
 import com.app.ecosort.view.history.HistoryViewModel
+import com.app.ecosort.view.result.ResultActivity
 
 class ViewModelFactoryPrivate private constructor(private val mApplication: Application) : ViewModelProvider.NewInstanceFactory() {
     companion object {
@@ -29,7 +30,7 @@ class ViewModelFactoryPrivate private constructor(private val mApplication: Appl
         if (modelClass.isAssignableFrom(HistoryViewModel::class.java)) {
             return HistoryViewModel(mApplication) as T
         }
-        else if (modelClass.isAssignableFrom(HistoryDetailActivity::class.java)) {
+        else if (modelClass.isAssignableFrom(ResultActivity::class.java)) {
             return HistoryViewModel(mApplication) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
