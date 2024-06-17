@@ -1,18 +1,11 @@
 package com.app.ecosort
 
-import android.annotation.SuppressLint
-import android.app.Application
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.app.ecosort.api.repository.UploadRepository
-import com.app.ecosort.data.UserRepository
 import com.app.ecosort.di.Injection
-import com.app.ecosort.view.gallery.GalleryActivity
 import com.app.ecosort.view.gallery.GalleryViewModel
-import com.app.ecosort.view.home.MainViewModel
-import com.app.ecosort.view.login.LoginViewModel
-import com.app.ecosort.view.register.RegisterViewModel
 
 class ViewModelFactoryGallery(private val uploadRepository: UploadRepository) : ViewModelProvider.Factory {
 

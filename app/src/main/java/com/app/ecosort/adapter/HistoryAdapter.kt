@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.app.ecosort.databinding.ItemHistoryBinding
 import com.app.ecosort.view.history.HistoryDetailActivity
-import com.app.ecosort.view.result.ResultActivity
 import com.bumptech.glide.Glide
 import com.dicoding.asclepius.database.History
 

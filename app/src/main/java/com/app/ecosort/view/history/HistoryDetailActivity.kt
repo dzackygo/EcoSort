@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.app.ecosort.R
-import com.app.ecosort.databinding.ActivityHistoryBinding
 import com.app.ecosort.databinding.ActivityHistoryDetailBinding
 import com.bumptech.glide.Glide
 

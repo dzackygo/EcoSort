@@ -17,15 +17,11 @@ import androidx.core.view.WindowInsetsCompat
 import com.app.ecosort.R
 import com.app.ecosort.databinding.ActivityWelcomeBinding
 import com.app.ecosort.helper.PrefHelper
-import com.app.ecosort.view.home.MainViewModel
 import com.app.ecosort.view.login.LoginActivity
 import com.app.ecosort.view.register.RegisterActivity
 
 
 class WelcomeActivity : AppCompatActivity() {
-    private lateinit var mainViewModel: MainViewModel
-
-    private val  pref by lazy { PrefHelper(this) }
     private lateinit var binding: ActivityWelcomeBinding
     private var backPressedTime: Long = 0
 
@@ -103,6 +99,7 @@ class WelcomeActivity : AppCompatActivity() {
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
+        super.onBackPressed()
         if (backPressedTime + 2000 > System.currentTimeMillis()) {
             finishAffinity()
         } else {

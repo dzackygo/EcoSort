@@ -3,8 +3,6 @@ package com.app.ecosort
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.app.ecosort.view.gallery.GalleryViewModel
-import com.app.ecosort.view.history.HistoryDetailActivity
 import com.app.ecosort.view.history.HistoryViewModel
 import com.app.ecosort.view.result.ResultActivity
 

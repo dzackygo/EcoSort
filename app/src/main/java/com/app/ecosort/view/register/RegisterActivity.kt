@@ -1,6 +1,5 @@
 package com.app.ecosort.view.register
 
-import android.R.attr
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Intent
@@ -20,7 +19,6 @@ import com.app.ecosort.data.RegistrationFailedException
 import com.app.ecosort.data.pref.UserPreference
 import com.app.ecosort.databinding.ActivityRegisterBinding
 import com.app.ecosort.helper.PrefHelper
-import com.app.ecosort.view.home.MainActivity
 import com.app.ecosort.view.login.LoginActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,7 +30,6 @@ class RegisterActivity : AppCompatActivity() {
     private val  pref by lazy { PrefHelper(this) }
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var registerViewModel: RegisterViewModel
-    private lateinit var userPreference: UserPreference
     private var backPressedTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -162,6 +159,7 @@ class RegisterActivity : AppCompatActivity() {
         ReplaceWith("super.onBackPressed()", "androidx.appcompat.app.AppCompatActivity")
     )
     override fun onBackPressed() {
+        super.onBackPressed()
         if (backPressedTime + 2000 > System.currentTimeMillis()) {
             finishAffinity()
         } else {

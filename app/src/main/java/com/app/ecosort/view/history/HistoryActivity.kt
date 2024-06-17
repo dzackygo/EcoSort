@@ -20,15 +20,12 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.ecosort.R
-import com.app.ecosort.ViewModelFactory
 import com.app.ecosort.ViewModelFactoryPrivate
 import com.app.ecosort.adapter.HistoryAdapter
 import com.app.ecosort.databinding.ActivityHistoryBinding
 import com.app.ecosort.helper.PrefHelper
-import com.app.ecosort.view.camera.CameraActivity
 import com.app.ecosort.view.gallery.GalleryActivity
 import com.app.ecosort.view.home.MainActivity
-import com.app.ecosort.view.login.LoginViewModel
 import com.app.ecosort.view.news.NewsActivity
 import com.app.ecosort.view.settings.SettingsActivity
 
