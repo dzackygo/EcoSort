@@ -2,7 +2,6 @@ package com.app.ecosort.di
 
 import android.content.Context
 import com.app.ecosort.api.ApiConfig
-import com.app.ecosort.api.UploadApiService
 import com.app.ecosort.api.repository.UploadRepository
 import com.app.ecosort.data.UserRepository
 import com.app.ecosort.data.pref.UserPreference

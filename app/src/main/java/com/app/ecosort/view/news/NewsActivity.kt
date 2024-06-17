@@ -35,7 +35,6 @@ import com.app.ecosort.view.settings.SettingsActivity
 class NewsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityNewsBinding
-    private val  pref by lazy { PrefHelper(this) }
     private lateinit var newsAdapter: NewsAdapter
     private lateinit var newsViewModel: NewsViewModel
     private var backPressedTime: Long = 0
@@ -109,7 +108,7 @@ class NewsActivity : AppCompatActivity() {
         }
 
         binding.cameraActivity.setOnClickListener() {
-            val i = Intent(this@NewsActivity, CameraActivity::class.java)
+            val i = Intent(this@NewsActivity, GalleryActivity::class.java)
             startActivity(i)
         }
     }

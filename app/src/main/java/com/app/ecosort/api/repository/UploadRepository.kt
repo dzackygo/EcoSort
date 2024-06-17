@@ -1,16 +1,12 @@
 package com.app.ecosort.api.repository
 
-import android.util.Log
-import androidx.datastore.dataStore
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.app.ecosort.ResultState
 import com.app.ecosort.api.ApiConfig
 import com.app.ecosort.api.UploadApiService
-import com.app.ecosort.data.pref.UserPreference
 import com.app.ecosort.response.UploadResponse
-import kotlinx.coroutines.flow.first
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody

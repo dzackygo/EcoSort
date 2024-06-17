@@ -19,7 +19,7 @@ app:cardElevation="4dp"
 
     <TextView
         android:id="@+id/tv_history"
-        android:layout_width="210dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:maxLines="5"
         android:text="Tittle"
@@ -27,20 +27,10 @@ app:cardElevation="4dp"
         android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_seeMore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="openNewsUrl"
-        android:text="See More"
-        android:textColor="@color/button"
-        android:fontFamily="@font/montserrat_semibold"
-        android:textSize="13sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/cardview"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/cardview"
+        />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview"

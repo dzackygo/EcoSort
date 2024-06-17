@@ -1,8 +1,6 @@
 package com.app.ecosort.view.settings
 
 import android.content.Intent
-import android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
-import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
@@ -27,7 +25,6 @@ import com.app.ecosort.data.pref.UserPreference
 import com.app.ecosort.data.pref.dataStore
 import com.app.ecosort.databinding.ActivitySettingsBinding
 import com.app.ecosort.helper.PrefHelper
-import com.app.ecosort.view.camera.CameraActivity
 import com.app.ecosort.view.gallery.GalleryActivity
 import com.app.ecosort.view.history.HistoryActivity
 import com.app.ecosort.view.home.MainActivity

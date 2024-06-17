@@ -21,7 +21,6 @@ import kotlinx.coroutines.launch
 
 class SplashActivity : AppCompatActivity() {
 
-    private val  pref by lazy { PrefHelper(this) }
     private lateinit var binding: ActivitySplashBinding
     private lateinit var mainViewModel: MainViewModel
 

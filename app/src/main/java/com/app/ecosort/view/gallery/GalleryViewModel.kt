@@ -1,10 +1,7 @@
 package com.app.ecosort.view.gallery
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.switchMap
-import androidx.lifecycle.viewModelScope
 import com.app.ecosort.ResultState
 import com.app.ecosort.api.repository.UploadRepository
 import com.app.ecosort.response.UploadResponse

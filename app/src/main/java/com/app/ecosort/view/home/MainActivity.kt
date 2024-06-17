@@ -22,7 +22,6 @@ import com.app.ecosort.R
 import com.app.ecosort.ViewModelFactory
 import com.app.ecosort.databinding.ActivityMainBinding
 import com.app.ecosort.helper.PrefHelper
-import com.app.ecosort.view.camera.CameraActivity
 import com.app.ecosort.view.description.DescriptionActivity
 import com.app.ecosort.view.gallery.GalleryActivity
 import com.app.ecosort.view.history.HistoryActivity
@@ -162,6 +161,7 @@ class MainActivity() : AppCompatActivity() {
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
+        super.onBackPressed()
         if (backPressedTime + 2000 > System.currentTimeMillis()) {
             finishAffinity()
         } else {
