@@ -129,7 +129,8 @@ class GalleryActivity : AppCompatActivity() {
                             val detail: List<ImageDetailItem>? = result.data.imageDetail
 
                             val hasil = if (detail != null) {
-                                detail.withIndex().joinToString("\n") { (index, item) ->
+                                val halfSize = detail.size / 2
+                                detail.subList(0, halfSize).withIndex().joinToString("\n") { (index, item) ->
                                     "Object ${index + 1} = ${item.confidence.toString().substring(2, 4)}% ${item.classification} (${item.sorting})"
                                 }
                             } else {

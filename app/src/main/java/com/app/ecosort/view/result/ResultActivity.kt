@@ -94,8 +94,4 @@ class ResultActivity : AppCompatActivity() {
         }
         supportActionBar?.hide()
     }
-
-    companion object{
-        const val EXTRA_HISTORY = "ResultActivity"
-    }
 }

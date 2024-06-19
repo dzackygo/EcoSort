@@ -1,8 +1,11 @@
 package com.app.ecosort.view.history
 
+import android.os.Build
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.app.ecosort.R
@@ -23,13 +26,26 @@ class HistoryDetailActivity : AppCompatActivity() {
             insets
         }
 
-        supportActionBar?.hide()
+        setupView()
 
         Glide.with(this@HistoryDetailActivity)
             .load(intent.getStringExtra(EXTRA_HISTORY_IMAGE))
             .into(binding.previewImageViewHistory)
 
         binding.tvResultHistory.text = intent.getStringExtra(EXTRA_HISTORY_DETAIL)
+    }
+
+    private fun setupView() {
+        @Suppress("DEPRECATION")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.statusBarColor = ContextCompat.getColor(this, R.color.action_bar)
+        } else {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+            )
+        }
+        supportActionBar?.hide()
     }
 
     companion object{
