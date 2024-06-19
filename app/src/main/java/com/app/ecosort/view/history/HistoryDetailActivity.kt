@@ -23,6 +23,8 @@ class HistoryDetailActivity : AppCompatActivity() {
             insets
         }
 
+        supportActionBar?.hide()
+
         Glide.with(this@HistoryDetailActivity)
             .load(intent.getStringExtra(EXTRA_HISTORY_IMAGE))
             .into(binding.previewImageViewHistory)
