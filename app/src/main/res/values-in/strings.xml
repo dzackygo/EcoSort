@@ -92,5 +92,14 @@
     <string name="slide_3">Langkah Kecil, Dampak Besar. Pilah Sampah, Jaga Bumi Kita!</string>
     <string name="slide_4">Pilah Sampah, Investasi Terbaik untuk Masa Depan yang Berkelanjutan!</string>
     <string name="slide_5">Bersama Pilah Sampah, Kita Wujudkan Mimpi Bumi yang Bebas Sampah!</string>
+    <string name="saved_history">Riwayat yang Tersimpan</string>
+    <string name="history_detail">Detail Riwayat</string>
+    <string name="scan_again">Pindai Lagi</string>
+    <string name="back_to_main">Kembali ke beranda</string>
+    <string name="take_from_gallery">Ambil dari Galeri</string>
+    <string name="take_a_picture">Ambil dari Foto</string>
+    <string name="please_insert_image_first">Silakan Masukkan Gambar Terlebih Dahulu</string>
+    <string name="result_of_image">Hasil dari gambar</string>
+    <string name="analysis_result">Hasil Analisis :</string>
 
 </resources>

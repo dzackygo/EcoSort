@@ -11,7 +11,11 @@ import com.dicoding.asclepius.database.History
 
 
 class HistoryAdapter(private val listHistory: List<History>) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
+    private var listener: OnItemClickListener? = null
 
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.listener = listener
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
         val binding = ItemHistoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return HistoryViewHolder(binding)
@@ -22,6 +26,10 @@ class HistoryAdapter(private val listHistory: List<History>) : RecyclerView.Adap
 
     override fun getItemCount(): Int {
         return listHistory.size
+    }
+
+    interface OnItemClickListener {
+        fun onDeleteClick(history: History)
     }
 
     inner class HistoryViewHolder(private val binding: ItemHistoryBinding) : RecyclerView.ViewHolder(binding.root) {

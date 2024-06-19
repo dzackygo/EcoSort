@@ -92,5 +92,14 @@
     <string name="slide_3">Small Steps, Big Impact. Separate Waste, Take Care of Our Earth!</string>
     <string name="slide_4">Sort Waste, Best Investment for a Sustainable Future!</string>
     <string name="slide_5">With Waste Sorting, We Realize the Dream of a Waste-Free Earth!</string>
+    <string name="saved_history">Saved History</string>
+    <string name="history_detail">History Detail</string>
+    <string name="scan_again">Scan Again</string>
+    <string name="back_to_main">Back To Main</string>
+    <string name="take_from_gallery">Take From Gallery</string>
+    <string name="take_a_picture">Take A Picture</string>
+    <string name="please_insert_image_first">Please Insert Image First</string>
+    <string name="result_of_image">Result of Image</string>
+    <string name="analysis_result">Analysis Result :</string>
 
 </resources>

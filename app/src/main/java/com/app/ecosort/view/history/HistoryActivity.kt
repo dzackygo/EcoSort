@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.TypefaceSpan
+import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -19,6 +20,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.airbnb.lottie.LottieAnimationView
 import com.app.ecosort.R
 import com.app.ecosort.ViewModelFactoryPrivate
 import com.app.ecosort.adapter.HistoryAdapter
@@ -35,6 +37,7 @@ class HistoryActivity : AppCompatActivity() {
     private val  pref by lazy { PrefHelper(this) }
     private lateinit var binding: ActivityHistoryBinding
     private lateinit var historyViewModel: HistoryViewModel
+    private lateinit var lottieAnimationView: LottieAnimationView
     private var backPressedTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,12 +75,19 @@ class HistoryActivity : AppCompatActivity() {
 
         binding?.rvHistory?.layoutManager = LinearLayoutManager(this)
         binding?.rvHistory?.setHasFixedSize(true)
+        lottieAnimationView = binding.loading
 
         val mainViewModel = obtainViewModel(this@HistoryActivity)
         mainViewModel.getAllNotes().observe(this) { historyList ->
-            if (historyList != null) {
+            if (historyList.isNullOrEmpty()) {
+                lottieAnimationView.visibility = View.VISIBLE
+                binding.rvHistory.visibility = View.GONE
+            } else {
+                lottieAnimationView.visibility = View.GONE
+                binding.rvHistory.visibility = View.VISIBLE
+
                 val adapter = HistoryAdapter(historyList)
-                binding?.rvHistory?.adapter = adapter
+                binding.rvHistory.adapter = adapter
             }
         }
 
@@ -125,6 +135,16 @@ class HistoryActivity : AppCompatActivity() {
         )
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        updateTheme()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        overridePendingTransition(0, 0)
+    }
+
     private fun setupView() {
         @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -136,11 +156,6 @@ class HistoryActivity : AppCompatActivity() {
             )
         }
         supportActionBar?.hide()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        overridePendingTransition(0, 0)
     }
 
     @Deprecated("Deprecated in Java")

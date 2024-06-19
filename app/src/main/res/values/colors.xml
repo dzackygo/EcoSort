@@ -4,14 +4,14 @@
     <color name="button">#00FF0D</color>
     <color name="action_bar">#00FF0D</color>
     <color name="text_button">#FFFFFF</color>
+    <color name="text_button_gallery">#FFFFFF</color>
     <color name="title">#000000</color>
-    <color name="subtitle">#4D4D4D</color>
+    <color name="subtitle">#606060</color>
+    <color name="forGallery">#000000</color>
     <color name="button_camera">#00FF0D</color>
     <color name="card">#FFFFFF</color>
     <color name="text_light">#2F2E41</color>
     <color name="buttonNavBar">#FFFFFF</color>
     <color name="unselected">#5E6579</color>
     <color name="transparant">#7C000000</color>
-
-    
 </resources>

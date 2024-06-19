@@ -2,14 +2,20 @@ package com.app.ecosort.view.result
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.TypefaceSpan
 import android.util.Log
 import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.app.ecosort.R
@@ -45,6 +51,24 @@ class ResultActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        val toolbar = binding.toolbar
+        toolbar.navigationIcon?.setTint(ContextCompat.getColor(this, android.R.color.white))
+        toolbar.setNavigationOnClickListener {
+            onBackPressed()
+        }
+        val typeface: Typeface? = ResourcesCompat.getFont(this, R.font.montserrat_semibold)
+
+        if (typeface != null) {
+            val spannableTitle = SpannableString(toolbar.title)
+            spannableTitle.setSpan(
+                TypefaceSpan(typeface),
+                0,
+                spannableTitle.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            toolbar.title = spannableTitle
+            toolbar.setTitleTextColor(Color.WHITE)
+        }
 
         setupView()
 
@@ -72,6 +96,7 @@ class ResultActivity : AppCompatActivity() {
         if(history == null){
             history = History()
         }
+
         val timestamp = System.currentTimeMillis()
         val formattedDate = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date(timestamp))
         history.let{

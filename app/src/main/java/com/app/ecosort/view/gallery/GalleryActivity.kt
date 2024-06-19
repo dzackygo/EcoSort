@@ -3,9 +3,14 @@ package com.app.ecosort.view.gallery
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.TypefaceSpan
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
@@ -15,8 +20,10 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.app.ecosort.R
@@ -24,6 +31,7 @@ import com.app.ecosort.ResultState
 import com.app.ecosort.ViewModelFactoryGallery
 import com.app.ecosort.databinding.ActivityGalleryBinding
 import com.app.ecosort.getImageUri
+import com.app.ecosort.helper.PrefHelper
 import com.app.ecosort.reduceFileImage
 import com.app.ecosort.response.ImageDetailItem
 import com.app.ecosort.uriToFile
@@ -102,6 +110,26 @@ class GalleryActivity : AppCompatActivity() {
             insets
         }
 
+        val toolbar = binding.toolbar
+
+        toolbar.navigationIcon?.setTint(ContextCompat.getColor(this, android.R.color.white))
+        toolbar.setNavigationOnClickListener {
+            onBackPressed()
+        }
+        val typeface: Typeface? = ResourcesCompat.getFont(this, R.font.montserrat_semibold)
+
+        if (typeface != null) {
+            val spannableTitle = SpannableString(toolbar.title)
+            spannableTitle.setSpan(
+                TypefaceSpan(typeface),
+                0,
+                spannableTitle.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            toolbar.title = spannableTitle
+            toolbar.setTitleTextColor(Color.WHITE)
+        }
+
         setupView()
         binding.galleryButton.setOnClickListener { startGallery() }
         binding.cameraButton.setOnClickListener { checkCameraPermission() }
@@ -129,7 +157,8 @@ class GalleryActivity : AppCompatActivity() {
                             val detail: List<ImageDetailItem>? = result.data.imageDetail
 
                             val hasil = if (detail != null) {
-                                detail.withIndex().joinToString("\n") { (index, item) ->
+                                val halfSize = detail.size / 2
+                                detail.subList(0, halfSize).withIndex().joinToString("\n") { (index, item) ->
                                     "Object ${index + 1} = ${item.confidence.toString().substring(2, 4)}% ${item.classification} (${item.sorting})"
                                 }
                             } else {
@@ -153,7 +182,7 @@ class GalleryActivity : AppCompatActivity() {
                     }
                 }
             }
-        } ?: showToast("Pilih Foto dulu")
+        } ?: showToast("Pilih Foto Terlebih dahulu")
     }
     fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
@@ -172,6 +201,20 @@ class GalleryActivity : AppCompatActivity() {
         currentImageUri = getImageUri(this)
         launcherIntentCamera.launch(currentImageUri!!)
     }
+    private fun updateTheme() {
+        val pref = PrefHelper(this)
+        val isDarkModeEnabled = pref.getBoolean("dark_mode")
+        AppCompatDelegate.setDefaultNightMode(
+            if (isDarkModeEnabled) AppCompatDelegate.MODE_NIGHT_YES
+            else AppCompatDelegate.MODE_NIGHT_NO
+        )
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        updateTheme()
+    }
+
     private fun setupView() {
         @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -184,9 +227,9 @@ class GalleryActivity : AppCompatActivity() {
         }
         supportActionBar?.hide()
     }
+
     companion object {
         const val EXTRA_DETAIL = "extra detail"
         const val EXTRA_IMAGE = "extra image"
-
     }
 }
