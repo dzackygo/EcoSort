@@ -40,6 +40,7 @@
     <string name="description_sampah_anorganik">Anorganic waste is waste that comes from non-living materials and is difficult to decompose. This waste is generally not environmentally friendly and takes a long time to decompose; some even do not decompose at all.</string>
     <string name="title_sampah_anorganik">Anorganic Waste</string>
     <string name="example">Example :</string>
+    <string name="upload_toast">Upload Image First</string>
 
     <!-- Sampah Organik -->
     <string name="kulitbuah">Fruit Skin</string>

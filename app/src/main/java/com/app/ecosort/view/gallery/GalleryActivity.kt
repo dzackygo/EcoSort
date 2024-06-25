@@ -30,6 +30,8 @@ import com.app.ecosort.uriToFile
 import com.app.ecosort.view.result.ResultActivity
 
 
+private const val s = "Pilih Foto dulu"
+
 class GalleryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGalleryBinding
     private var currentImageUri: Uri? = null
@@ -149,12 +151,12 @@ class GalleryActivity : AppCompatActivity() {
                         }
 
                         is ResultState.Error -> {
-                            showToast(result.error)
+                            showToast("${result.error} Gagal Mengupload Gambar")
                         }
                     }
                 }
             }
-        } ?: showToast("Pilih Foto dulu")
+        } ?: showToast(R.string.upload_toast.toString())
     }
     fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
